@@ -60,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Integer deletedRows = myDb.deleteData(editDEPT.getText().toString());
-                        if(deletedRows > 0)
-                            Toast.makeText(MainActivity.this,"Data Deleted",Toast.LENGTH_LONG).show();
+                        if(deletedRows > 0) //show a temporary messsage bubble notifying is anything was detected as deleted
+                            Toast.makeText(MainActivity.this,"Data Deleted",Toast.LENGTH_LONG).show(); // Toast = message bubble
                         else
-                            Toast.makeText(MainActivity.this,"Data not Deleted",Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this,"Data not Deleted",Toast.LENGTH_LONG).show(); // Toast = message bubble
                     }
                 }
         );
