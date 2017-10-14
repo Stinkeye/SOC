@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         myDb = new DatabaseHelper(this); //will call constructor of DataBaseHelper class
 
-        /* Casting buttons and Text fields in UI*/
-        editDEPT= (EditText)findViewById(R.id.editText_dept);
+        /* Casting buttons and Text fields located in UI, button/field ids found in activity_main.xml*/
+        editDEPT= (EditText)findViewById(R.id.editText_dept); //this looks-for/assigns button by id found in activity_main.xml
         editCLASS= (EditText)findViewById(R.id.editText_class);
         editSECTION= (EditText)findViewById(R.id.editText_section);
         editTIME= (EditText)findViewById(R.id.editText_time);
