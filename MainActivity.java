@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper myDb;
 
-    /* Declare TextFields and Buttons variables found int activity_mail.xml */
+    /* Declare TextFields and Buttons variables found int activity_main.xml */
     EditText editDEPT, editCLASS, editSECTION, editTIME;
     Button btnAddData;
     Button btnViewAll;
