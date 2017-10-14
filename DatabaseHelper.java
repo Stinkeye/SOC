@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    /* Declare String Vars */
     public static final String DATABASE_NAME = "SOC.db";
     public static final String TABLE_NAME = "SOCtable";
     public static final String COL_1 = "DEPT";
@@ -26,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //context.deleteDatabase(DATABASE_NAME); deletes the database
     }
 
+    /* Creates table columns */
     @Override
     public void onCreate(SQLiteDatabase db) {//creates table when called
  /*       db.execSQL( "create table " + "SOCTable" + "(" +
@@ -38,12 +40,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_NAME +" (DEPT TEXT,CLASS TEXT,SECTION TEXT,TIME TEXT)");
     }
 
+    /* all upgrade functions are broken. they need a primary key to work */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_NAME );
         onCreate(db);
     }
 
+    /* insert data into sql database */
     public boolean insertData(String dept, String classs, String section, String time) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
