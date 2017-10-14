@@ -19,19 +19,22 @@ public class MainActivity extends AppCompatActivity {
 
     DatabaseHelper myDb;
 
+    /* Declare TextFields and Buttons variables */
     EditText editDEPT, editCLASS, editSECTION, editTIME;
     Button btnAddData;
     Button btnViewAll;
     Button btnViewUpdate; //update is currently broken
     Button btnDelete;
 
+    /* onCreate is where you initialize your activity, using findViewById(int) to retrieve the widgets in that UI that you need to interact with programmatically*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        myDb = new DatabaseHelper(this); //will call constructor of Helper class
+        super.onCreate(savedInstanceState); //auto generated
+        setContentView(R.layout.activity_main); //auto generated
 
-        /* Casting buttons and Text fields */
+        myDb = new DatabaseHelper(this); //will call constructor of DataBaseHelper class
+
+        /* Casting buttons and Text fields in UI*/
         editDEPT= (EditText)findViewById(R.id.editText_dept);
         editCLASS= (EditText)findViewById(R.id.editText_class);
         editSECTION= (EditText)findViewById(R.id.editText_section);
@@ -41,13 +44,14 @@ public class MainActivity extends AppCompatActivity {
         btnViewUpdate= (Button) findViewById(R.id.button_update);
         btnDelete = (Button) findViewById(R.id.button_delete);
 
-        AddData();
-        viewAll();
+        AddData(); //call Function to add data to database
+        viewAll(); //view all entries in database
         //UpdateData(); //this is broken, it needs a primary key to function correctly
-        DeleteData();
+        DeleteData(); //delete entry in database, currently entered to DEPT
 
     }
 
+    /* code that handles Delete Button */
     public void DeleteData() {
         btnDelete.setOnClickListener(
                 new View.OnClickListener() {
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    /*code that handles Add Data button*/
     public  void AddData() {
         btnAddData.setOnClickListener(
                 new View.OnClickListener() {
@@ -90,14 +95,15 @@ public class MainActivity extends AppCompatActivity {
                                 editCLASS.getText().toString(),
                                 editSECTION.getText().toString(),editTIME.getText().toString() );
                         if(isInserted == true)
-                            Toast.makeText(MainActivity.this,"Data Inserted",Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this,"Data Inserted",Toast.LENGTH_LONG).show(); // Toast = message bubble
                         else
-                            Toast.makeText(MainActivity.this,"Data not Inserted",Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this,"Data not Inserted",Toast.LENGTH_LONG).show(); //Toast = message bubble
                     }
                 }
         );
     }
 
+    /* code that handles View Classes button */
     public void viewAll() {
         btnViewAll.setOnClickListener(
                 new View.OnClickListener() {
@@ -125,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    /** i forgot what this does */
     public void showMessage(String title,String Message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
