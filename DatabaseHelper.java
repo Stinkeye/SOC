@@ -81,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    /* returns 1 for successful delete, 0 for fail */
+    /* returns 1 for successful delete, 0 for fail. deleteData() currently only looks at DEPT field */
     public Integer deleteData (String dept) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, "DEPT = ?",new String[] {dept});
