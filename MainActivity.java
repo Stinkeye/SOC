@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnViewUpdate; //update is currently broken
     Button btnDelete;
 
-    /* onCreate is where you initialize your activity, using findViewById(int) to retrieve the widgets in that UI that you need to interact with programmatically*/
+    /* onCreate is where you initialize your activity, using findViewById(int) to retrieve the widgets (buttons, text fields, drop-down-boxes-n-shit) in that UI that you need to interact with programmatically*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //auto generated
