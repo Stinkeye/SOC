@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_NAME +" (DEPT TEXT,CLASS TEXT,SECTION TEXT,TIME TEXT)");
     }
 
-    /* trieds to upgrade if new version of table exists. ..prolly broken. see constructor to delete table */
+    /* trieds to upgrade if new version of table exists. ..prolly broken. see DataBaseHelper.java constructor to delete table */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_NAME );
