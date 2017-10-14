@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         btnViewUpdate= (Button) findViewById(R.id.button_update);
         btnDelete = (Button) findViewById(R.id.button_delete);
 
+        /* Excecute a button action if an OnClickListener catches a button-press */
         AddData(); //call Function to add data to database
         viewAll(); //view all entries in database
         //UpdateData(); //this is broken, it needs a primary key to function correctly
