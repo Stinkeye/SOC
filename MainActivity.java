@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    /** i forgot what this does */
+    /** This shows data called from viewAll (button Show Classes) */
     public void showMessage(String title,String Message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
