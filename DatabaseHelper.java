@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /* CONSTRUCTOR */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1); //database created when constructor is called
-        //context.deleteDatabase(DATABASE_NAME); deletes the database
+        //context.deleteDatabase(DATABASE_NAME); //deletes the database
     }
 
     /* Creates table columns */
