@@ -69,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    /* UPDATE IS CURRENTLY BROKEN, ..could be used with class ID */
+    /* UPDATE IS CURRENTLY BROKEN, ..could be used with class ID as primary key. needs primary key to work as written */
     public boolean updateData(String dept,String classs,String section,String time) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
