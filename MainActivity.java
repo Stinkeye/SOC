@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    DatabaseHelper myDb; //declare database object
+    DatabaseHelper myDb; //define database object
 
     EditText editDEPT, editCLASS, editSECTION, editTIME; //Declare a text to attach to txt field @+id  found in activity.xml
     Button btnAddData;                                   //Declare a button to attach to a button @+id  found in activity.xml
@@ -29,8 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState);    //auto-generated
+        setContentView(R.layout.activity_main);//auto-generated
+        
+        /* Declare new database object */
         myDb = new DatabaseHelper(this); //will call constructor of Helper class
 
         /* Casting buttons and Text fields */
