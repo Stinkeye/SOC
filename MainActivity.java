@@ -4,7 +4,7 @@ package com.soc.matthewhaynes.sqliteapp; //this is different depending on the PA
 
 /**
  *
- * THIS CLASS MAINLY JUST HANDLES THE BUTTONS AND TEXT FIELS FOUND IN /app/res/layout/activity_main.xml
+ * THIS CLASS MAINLY JUST HANDLES THE BUTTONS AND TEXT FIELDS FOUND IN /app/res/layout/activity_main.xml
  *
  *
  *
