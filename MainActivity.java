@@ -1,4 +1,4 @@
-package com.soc.matthewhaynes.sqliteapp; //this will be unique to your package.  REMEMBER TO CLEAN --> REBUILD
+package com.soc.matthewhaynes.sqliteapp;
 
 /**********************************  CUT BELOW HERE TO PASTE *****************************************************/
 
