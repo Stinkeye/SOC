@@ -1,4 +1,7 @@
-package com.soc.matthewhaynes.sqliteapp;
+package com.soc.matthewhaynes.sqliteapp;   //this is different depending on the PATH to your project. remember to CLEAN -> REBUILD when downloading
+
+/****************CUT BELOW HERE IN ORDER TO PATSTE *******************************/
+
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -12,49 +15,40 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    /* Declare String Vars */
-    public static final String DATABASE_NAME = "SOC.db";
-    public static final String TABLE_NAME = "SOCtable";
-    public static final String COL_1 = "DEPT";
-    public static final String COL_2 = "CLASS";
-    public static final String COL_3 = "SECTION";
-    public static final String COL_4 = "TIME";
+    public static final String DATABASE_NAME = "SOC.db"; //declare name of database
+    public static final String TABLE_NAME = "SOCtable";  //declare name of table in database
+    public static final String COL_1 = "DEPT";           //declare column name
+    public static final String COL_2 = "CLASS";          //declare column name
+    public static final String COL_3 = "SECTION";        //declare column name
+    public static final String COL_4 = "TIME";           //declare column name
 
 
     /* CONSTRUCTOR */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1); //database created when constructor is called
-        //context.deleteDatabase(DATABASE_NAME); //deletes the database
+        //context.deleteDatabase(DATABASE_NAME); deletes the database
     }
 
-    /* Creates table columns */
     @Override
     public void onCreate(SQLiteDatabase db) {//creates table when called
- /*       db.execSQL( "create table " + "SOCTable" + "(" +
-                "_id integer primary key autoincrement, " +
-                COL_1 + "," +
-                COL_2 + "," +
-                COL_3 + "," +
-                COL_4 + ")"
-        ); */ //executes query pased inside arguement
-        db.execSQL("create table " + TABLE_NAME +" (DEPT TEXT,CLASS TEXT,SECTION TEXT,TIME TEXT)");
+        db.execSQL("create table " + TABLE_NAME +" (DEPT TEXT,CLASS TEXT,SECTION TEXT,TIME TEXT)"); //Declare DB ROW names
     }
 
-    /* trieds to upgrade if new version of table exists. ..prolly broken. see DataBaseHelper.java constructor to delete table */
+    /* not sure, methinks it upgrades to new versions of database */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL( "DROP TABLE IF EXISTS " + TABLE_NAME );
         onCreate(db);
     }
 
-    /* insert data into sql database */
+    /* Insert data into the DB */
     public boolean insertData(String dept, String classs, String section, String time) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_1,dept);
-        contentValues.put(COL_2,classs);
-        contentValues.put(COL_3,section);
-        contentValues.put(COL_4,time);
+        SQLiteDatabase db = this.getWritableDatabase();    //declare db we want to alter
+        ContentValues contentValues = new ContentValues(); //ContentValues creates and EMPTY SET of values ..below fills empty set
+        contentValues.put(COL_1,dept);           //insert data into db column 1
+        contentValues.put(COL_2,classs);         //insert data into db column 2
+        contentValues.put(COL_3,section);        //insert data into db column 3
+        contentValues.put(COL_4,time);           //insert data into db column 4
         long result = db.insert(TABLE_NAME,null ,contentValues);
         if(result == -1)
             return false;
@@ -63,25 +57,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /* A query to get all the data */
-    public Cursor getAllData() {
-        SQLiteDatabase db = this.getWritableDatabase();
+    public Cursor getAllData() {   //a Cursor object can point to a SINGLE row of the result fetched by a db query ..so we return Cursor
+        SQLiteDatabase db = this.getWritableDatabase();   //declare db we want to alter
         Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
         return res;
     }
 
-    /* UPDATE IS CURRENTLY BROKEN, ..could be used with class ID as primary key. needs primary key to work as written */
+    /* UPDATE IS CURRENTLY BROKEN, ..needs a primary key declared (in place of TEXT) in onCreate() to work.   */
     public boolean updateData(String dept,String classs,String section,String time) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_1,dept);
-        contentValues.put(COL_2,classs);
-        contentValues.put(COL_3,section);
-        contentValues.put(COL_4,time);
+        SQLiteDatabase db = this.getWritableDatabase();        //retrieve db to write to it
+        ContentValues contentValues = new ContentValues();     //declare ContentValue object
+        contentValues.put(COL_1,dept);                         //update data into column 1
+        contentValues.put(COL_2,classs);                       //update data into column 2
+        contentValues.put(COL_3,section);                      //update data into column 3
+        contentValues.put(COL_4,time);                         //update data into column 4
         db.update(TABLE_NAME, contentValues, "DEPT = ?",new String[] { dept });
         return true;
     }
 
-    /* returns 1 for successful delete, 0 for fail. deleteData() currently only looks at DEPT field */
+    /* returns 1 for successful delete, 0 for fail */
     public Integer deleteData (String dept) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, "DEPT = ?",new String[] {dept});
