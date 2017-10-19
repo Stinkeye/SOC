@@ -1,12 +1,12 @@
 package com.soc.matthewhaynes.sqliteapp;   //this is different depending on the PATH to your project. remember to CLEAN -> REBUILD when downloading
 
-/****************CUT BELOW HERE IN ORDER TO PATSTE *******************************/
+/****************CUT BELOW HERE IN ORDER TO PASTE *******************************/
 
 /*
-* 
+*
 *  DatabaseHelper Creates an SQL database object and handles all relevant methods
-* 
-* 
+*
+*
 * */
 
 import android.content.ContentValues;
@@ -36,8 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {//creates table when called
-        db.execSQL("create table " + TABLE_NAME +" (DEPT TEXT,CLASS TEXT,SECTION TEXT,TIME TEXT)"); //Declare DB ROW names
+    public void onCreate(SQLiteDatabase db) {//creates table when called, takes the db as a parameter
+        db.execSQL("create table " + TABLE_NAME +" (DEPT TEXT,CLASS TEXT,SECTION TEXT,TIME TEXT)"); //create DB ROW names and data type
     }
 
     /* not sure, methinks it upgrades to new versions of database */
@@ -63,13 +63,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /* A query to get all the data */
-    public Cursor getAllData() {   //a Cursor object can point to a SINGLE row of the result fetched by a db query ..so we return Cursor
-        SQLiteDatabase db = this.getWritableDatabase();   //declare db we want to alter
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME,null); //Cursor objct 'res' points to a db row. This line is the sql query. 
+    public Cursor getAllData() {   //a Cursor object points to a SINGLE row of the result fetched by a db query ..so we return Cursor object 'res'
+        SQLiteDatabase db = this.getWritableDatabase();             //declare db we want to alter
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME,null); //this is the actual db query
         return res;
     }
 
-    /* UPDATE IS CURRENTLY BROKEN, ..needs a primary key declared (in place of TEXT) in onCreate() to work.   */
+    /* UPDATE IS CURRENTLY BROKEN, ..needs a primary key declared (in place of TEXT) in onCreate() to work as written.   */
     public boolean updateData(String dept,String classs,String section,String time) {
         SQLiteDatabase db = this.getWritableDatabase();        //retrieve db to write to it
         ContentValues contentValues = new ContentValues();     //declare ContentValue object
@@ -77,11 +77,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2,classs);                       //update data into column 2
         contentValues.put(COL_3,section);                      //update data into column 3
         contentValues.put(COL_4,time);                         //update data into column 4
-        db.update(TABLE_NAME, contentValues, "DEPT = ?",new String[] { dept });  //update the database with inserted values
+        db.update(TABLE_NAME, contentValues, "DEPT = ?",new String[] { dept });  //update the database with primary key (not declared ..is why broke)
         return true;
     }
 
-    /* returns 1 for successful delete, 0 for fail */
+    /* returns 1 for successful delete from db, 0 for fail */
     public Integer deleteData (String dept) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, "DEPT = ?",new String[] {dept});
