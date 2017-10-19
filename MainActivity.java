@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //auto-generated
         setContentView(R.layout.activity_main);//auto-generated
-        
+
         /* Declare new database object */
         myDb = new DatabaseHelper(this); //will call constructor of Helper class
 
@@ -82,9 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
                         /* Call isUpdated() in DatabaseHelper class to update db */
                         boolean isUpdate = myDb.updateData(editDEPT.getText().toString(),
-                                                           editCLASS.getText().toString(),
-                                                           editSECTION.getText().toString(),
-                                                           editTIME.getText().toString()); //call method with parameters
+                                editCLASS.getText().toString(),
+                                editSECTION.getText().toString(),
+                                editTIME.getText().toString()); //call method with parameters
 
                         /* Check if isUpdated() returns true or false regarding data insertion */
                         if (isUpdate == true)
@@ -105,9 +105,9 @@ public class MainActivity extends AppCompatActivity {
 
                         /* Call isInserted() in DatabaseHelper class */
                         boolean isInserted = myDb.insertData(editDEPT.getText().toString(),
-                                                             editCLASS.getText().toString(),
-                                                             editSECTION.getText().toString(),
-                                                             editTIME.getText().toString() );//call method with parameters
+                                editCLASS.getText().toString(),
+                                editSECTION.getText().toString(),
+                                editTIME.getText().toString() );//call method with parameters
 
                         /* Check if isInserted() returns true or false regarding data insertion */
                         if(isInserted == true)
