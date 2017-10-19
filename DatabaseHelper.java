@@ -84,6 +84,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /* returns 1 for successful delete from db, 0 for fail */
     public Integer deleteData (String dept) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(TABLE_NAME, "DEPT = ?",new String[] {dept});
+        return db.delete(TABLE_NAME, "DEPT = ?",new String[] {dept}); //deletes according to string in DEPT filed (1st txt field)
     }
 }
