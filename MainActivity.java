@@ -1,8 +1,13 @@
-package com.soc.matthewhaynes.sqliteapp;
+package com.soc.matthewhaynes.sqliteapp; //this is different depending on the PATH to your project. remember to CLEAN -> REBUILD when downloading
 
 /**********************************  CUT BELOW HERE TO PASTE *****************************************************/
 
 /**
+ *
+ * THIS CLASS MAINLY JUST HANDLES THE BUTTONS AND TEXT FIELS FOUND IN /app/res/layout/activity_main.xml
+ *
+ * 
+ *
  *  TUTORIAL FOUND AT
  *  http://www.codebind.com/android-tutorials-and-examples/android-sqlite-tutorial-example/
  *  https://www.youtube.com/watch?v=cp2rL3sAFmI
