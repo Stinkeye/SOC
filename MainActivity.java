@@ -1,4 +1,6 @@
-package com.soc.matthewhaynes.sqliteapp;
+package com.soc.matthewhaynes.sqliteapp; //this will be unique to your package.  REMEMBER TO CLEAN --> REBUILD
+
+/**********************************  CUT BELOW HERE TO PASTE *****************************************************/
 
 /**
  *  TUTORIAL FOUND AT
@@ -17,123 +19,135 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    DatabaseHelper myDb;
+    DatabaseHelper myDb; //declare database object
 
-    /* Declare TextFields and Buttons variables found int activity_main.xml */
-    EditText editDEPT, editCLASS, editSECTION, editTIME;
-    Button btnAddData;
+    EditText editDEPT, editCLASS, editSECTION, editTIME; //Declare a text to attach to txt field @+id  found in activity.xml
+    Button btnAddData;                                   //Declare a button to attach to a button @+id  found in activity.xml
     Button btnViewAll;
     Button btnViewUpdate; //update is currently broken
     Button btnDelete;
 
-    /* onCreate is where you initialize your activity, using findViewById(int) to retrieve the widgets (buttons, text fields, drop-down-boxes-n-shit) in that UI that you need to interact with programmatically*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); //auto generated
-        setContentView(R.layout.activity_main); //auto generated
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        myDb = new DatabaseHelper(this); //will call constructor of Helper class
 
-        myDb = new DatabaseHelper(this); //will call constructor of DataBaseHelper class
-
-        /* Buttons and Fields are stupid. You have to Cast them so they know what they are (as used here) */ 
-        /* Casting buttons and Text fields located in UI, button/field ids found in activity_main.xml*/
-        editDEPT= (EditText)findViewById(R.id.editText_dept); //this looks-for/assigns button by id (editText_dept) found in activity_main.xml
-        editCLASS= (EditText)findViewById(R.id.editText_class);
+        /* Casting buttons and Text fields */
+        editDEPT= (EditText)findViewById(R.id.editText_dept);  //attaches textfield '@+id' from activity.xml (in app/res/layout) to variable in this class
+        editCLASS= (EditText)findViewById(R.id.editText_class); // this is basically (Cast-to-text-field) findViewbyId(integer);
         editSECTION= (EditText)findViewById(R.id.editText_section);
         editTIME= (EditText)findViewById(R.id.editText_time);
-        btnAddData = (Button) findViewById(R.id.button_add);
+        btnAddData = (Button) findViewById(R.id.button_add); //attaches Button '@+id' from activity.xml (in /res/layout) to variable in this class
         btnViewAll = (Button) findViewById(R.id.button_viewAll);
         btnViewUpdate= (Button) findViewById(R.id.button_update);
         btnDelete = (Button) findViewById(R.id.button_delete);
 
-        /* Excecute a button action if an OnClickListener catches a button-press */
-        AddData(); //call Function to add data to database
-        viewAll(); //view all entries in database
+        AddData();
+        viewAll();
         //UpdateData(); //this is broken, it needs a primary key to function correctly
-        DeleteData(); //delete entry in database, currently entered to DEPT
+        DeleteData();
 
     }
 
-    /* code that handles Delete Button */
+    /* Handles Add Data button when pressed. Calls deleteRows() in DatabaseHelper */
     public void DeleteData() {
-        btnDelete.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
+        btnDelete.setOnClickListener(               //add a 'onClickListener' to button ..notice pattern (this always here)
+                new View.OnClickListener() {        //invoke action when button is clicked ..notice pattern (this always here)
+                    @Override                      //..notice pattern (this always here)
+
+                    /* Call isInserted() in DatabaseHelper class */
                     public void onClick(View v) {
                         Integer deletedRows = myDb.deleteData(editDEPT.getText().toString());
-                        if(deletedRows > 0) //show a temporary messsage bubble notifying is anything was detected as deleted
-                            Toast.makeText(MainActivity.this,"Data Deleted",Toast.LENGTH_LONG).show(); // Toast = message bubble
+
+                        /* Check if deleteRows() returns true or false regarding data deletion*/
+                        if(deletedRows > 0)
+                            Toast.makeText(MainActivity.this,"Data Deleted",Toast.LENGTH_LONG).show();  //Toast = temporary message bubble popup
                         else
-                            Toast.makeText(MainActivity.this,"Data not Deleted",Toast.LENGTH_LONG).show(); // Toast = message bubble
+                            Toast.makeText(MainActivity.this,"Data not Deleted",Toast.LENGTH_LONG).show(); //Toast = temporary message bubble popup
                     }
                 }
         );
     }
 
-    /* all update data functions are broken */
+    /* all update data functions are broken ..disregard for now */
     public void UpdateData() {
-        btnViewUpdate.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        btnViewUpdate.setOnClickListener(     //add a 'onClickListener' to button ..notice pattern (this always here)
+                new View.OnClickListener() {  //invoke action when button is clicked ..notice pattern (this always here)
+                    @Override                 //..notice pattern (this always here)
+                    public void onClick(View v) { //declare action to be taken when button clicked
+
+                        /* Call isUpdated() in DatabaseHelper class to update db */
                         boolean isUpdate = myDb.updateData(editDEPT.getText().toString(),
-                                editCLASS.getText().toString(),
-                                editSECTION.getText().toString(), editTIME.getText().toString()); //checks for update data
+                                                           editCLASS.getText().toString(),
+                                                           editSECTION.getText().toString(),
+                                                           editTIME.getText().toString()); //call method with parameters
+
+                        /* Check if isUpdated() returns true or false regarding data insertion */
                         if (isUpdate == true)
-                            Toast.makeText(MainActivity.this, "Data Update", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Data Update", Toast.LENGTH_LONG).show();   //Toast = temporary message bubble popup
                         else
-                            Toast.makeText(MainActivity.this, "Data not Updated", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, "Data not Updated", Toast.LENGTH_LONG).show();  //Toast = temporary message bubble popup
                     }
                 }
         );
     }
 
-    /*code that handles Add Data button*/
+    /* Handles Add Data button when pressed. Calls isInserted() in DatabaseHelper. Data will be added to database*/
     public  void AddData() {
-        btnAddData.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+        btnAddData.setOnClickListener(         //add a 'onClickListener' to button ..notice pattern (this always here)
+                new View.OnClickListener() {   //invoke action when button is clicked ..notice pattern (this always here)
+                    @Override                  //..notice pattern (this always here)
+                    public void onClick(View v) { //declare action to be taken when button clicked
+
+                        /* Call isInserted() in DatabaseHelper class */
                         boolean isInserted = myDb.insertData(editDEPT.getText().toString(),
-                                editCLASS.getText().toString(),
-                                editSECTION.getText().toString(),editTIME.getText().toString() );
+                                                             editCLASS.getText().toString(),
+                                                             editSECTION.getText().toString(),
+                                                             editTIME.getText().toString() );//call method with parameters
+
+                        /* Check if isInserted() returns true or false regarding data insertion */
                         if(isInserted == true)
-                            Toast.makeText(MainActivity.this,"Data Inserted",Toast.LENGTH_LONG).show(); // Toast = message bubble
+                            Toast.makeText(MainActivity.this,"Data Inserted",Toast.LENGTH_LONG).show();  //Toast = temporary message bubble popup
                         else
-                            Toast.makeText(MainActivity.this,"Data not Inserted",Toast.LENGTH_LONG).show(); //Toast = message bubble
+                            Toast.makeText(MainActivity.this,"Data not Inserted",Toast.LENGTH_LONG).show();  //Toast = temporary message bubble popup
                     }
                 }
         );
     }
 
-    /* code that handles View Classes button */
+    /* Handles ViewDatabase button when pressed. Calls getAllData() in DatabaseHelper */
     public void viewAll() {
-        btnViewAll.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Cursor res = myDb.getAllData();
-                        if(res.getCount() == 0) {
+        btnViewAll.setOnClickListener(            //add a 'onClickListener' to button ..notice pattern (this always here)
+                new View.OnClickListener() {      //invoke action when button is clicked ..notice pattern (this always here)
+                    @Override                     //..notice pattern (this always here)
+                    public void onClick(View v) { //declare action to be taken when button clicked
+
+                        /* set a Cursor object equal to the result of db query getAllData() in DatabaseHelper class */
+                        Cursor res = myDb.getAllData();  //a Cursor object can point to a SINGLE row of the result fetched by a db query
+                        if(res.getCount() == 0) {        //if no rows are sent back display a message
                             // show message
                             showMessage("Error","Nothing found");
                             return;
                         }
 
-                        StringBuffer buffer = new StringBuffer();
-                        while (res.moveToNext()) {
-                            buffer.append("DEPT :"+ res.getString(0)+"\n"); //index 0 is DEPT
-                            buffer.append("CLASS :"+ res.getString(1)+"\n");
-                            buffer.append("SECTION :"+ res.getString(2)+"\n");
-                            buffer.append("TIME :"+ res.getString(3)+"\n\n");
+                        /* ..not sure.  Some sort of buffer that reads in database rows */
+                        StringBuffer buffer = new StringBuffer();                 //declare a buffer
+                        while (res.moveToNext()) {                                //move Cursor object 'res' to the next row
+                            buffer.append("ID :"+ res.getString(0)+"\n");         //index 0 is first db column
+                            buffer.append("Name :"+ res.getString(1)+"\n");       //index 1 is second db column
+                            buffer.append("Description :"+ res.getString(2)+"\n");//index 2 is third db column
+                            buffer.append("Tag :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
                         }
 
-                        // Show all data
+                        // call method to show all data in a message box
                         showMessage("Data",buffer.toString());
                     }
                 }
         );
     }
 
-    /** This shows data called from viewAll (button Show Classes) */
+    /* method to show requested db data in message box */
     public void showMessage(String title,String Message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
