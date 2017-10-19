@@ -65,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /* A query to get all the data */
     public Cursor getAllData() {   //a Cursor object can point to a SINGLE row of the result fetched by a db query ..so we return Cursor
         SQLiteDatabase db = this.getWritableDatabase();   //declare db we want to alter
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME,null);
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME,null); //Cursor objct 'res' points to a db row. This line is the sql query. 
         return res;
     }
 
