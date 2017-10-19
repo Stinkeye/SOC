@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /* Handles Add Data button when pressed. Calls deleteRows() in DatabaseHelper */
+      /* Handles Delete Data button when pressed. Calls deleteRows() in DatabaseHelper */
     public void DeleteData() {
         btnDelete.setOnClickListener(               //add a 'onClickListener' to button ..notice pattern (this always here)
                 new View.OnClickListener() {        //invoke action when button is clicked ..notice pattern (this always here)
