@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         editCLASS= (EditText)findViewById(R.id.editText_class); // this is basically (Cast-to-text-field) findViewbyId(integer);
         editSECTION= (EditText)findViewById(R.id.editText_section);
         editTIME= (EditText)findViewById(R.id.editText_time);
-        btnAddData = (Button) findViewById(R.id.button_add); //attaches Button '@+id' from activity.xml (in /res/layout) to variable in this class
+        btnAddData = (Button) findViewById(R.id.button_add); //attaches Button '@+id' from activity.xml (in app/res/layout) to variable in this class
         btnViewAll = (Button) findViewById(R.id.button_viewAll);
         btnViewUpdate= (Button) findViewById(R.id.button_update);
         btnDelete = (Button) findViewById(R.id.button_delete);
