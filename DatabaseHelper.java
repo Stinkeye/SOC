@@ -2,6 +2,12 @@ package com.soc.matthewhaynes.sqliteapp;   //this is different depending on the 
 
 /****************CUT BELOW HERE IN ORDER TO PATSTE *******************************/
 
+/*
+* 
+*  DatabaseHelper Creates an SQL database object and handles all relevant methods
+* 
+* 
+* */
 
 import android.content.ContentValues;
 import android.content.Context;
