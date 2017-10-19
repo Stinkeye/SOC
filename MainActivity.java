@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                             buffer.append("Tag :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
                         }
 
-                        // call method to show all data in a message box
+                        // call method to show all db data in a message box
                         showMessage("Data",buffer.toString());
                     }
                 }
