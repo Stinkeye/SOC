@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         btnViewUpdate= (Button) findViewById(R.id.button_update);
         btnDelete = (Button) findViewById(R.id.button_delete);
 
+        /* Call all Button Methods. If one is Clicked an 'onClickListener' (listens for buttons clicks) will activate.  */
         AddData();
         viewAll();
         //UpdateData(); //this is broken, it needs a primary key to function correctly
