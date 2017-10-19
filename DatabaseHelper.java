@@ -71,7 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_2,classs);                       //update data into column 2
         contentValues.put(COL_3,section);                      //update data into column 3
         contentValues.put(COL_4,time);                         //update data into column 4
-        db.update(TABLE_NAME, contentValues, "DEPT = ?",new String[] { dept });
+        db.update(TABLE_NAME, contentValues, "DEPT = ?",new String[] { dept });  //update the database with inserted values
         return true;
     }
 
