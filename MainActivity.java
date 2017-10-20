@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    DatabaseHelper myDb; //define database object from DatabaseHelper Class
+    DatabaseHelper myDb; //declare database object from DatabaseHelper Class
 
     EditText editDEPT, editCLASS, editSECTION, editTIME; //Declare a text to attach to txt field @+id  found in activity.xml
     Button btnAddData;                                   //Declare a button to attach to a button @+id  found in activity.xml
