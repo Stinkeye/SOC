@@ -36,7 +36,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {//creates table when called, takes the db as a parameter
+    public void onCreate(SQLiteDatabase db) {//creates table on creattion of object, takes the db as a parameter
         db.execSQL("create table " + TABLE_NAME +" (DEPT TEXT,CLASS TEXT,SECTION TEXT,TIME TEXT)"); //create DB ROW names and data type
     }
 
