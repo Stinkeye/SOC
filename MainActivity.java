@@ -39,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
     /* onCreate(Bundle) is where you initialize your activity. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        super.onCreate(savedInstanceState); //auto-generated
+        setContentView(R.layout.activity_main); //auto-generated
+        
         myDb = new DatabaseHelper(this); //will call constructor of Helper class
 
          /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
