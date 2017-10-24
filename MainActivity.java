@@ -3,20 +3,17 @@ package com.soc.matthewhaynes.sqliteapp; //this is different depending on the PA
 /**********************************  CUT BELOW HERE TO PASTE *****************************************************/
 
 /**
- *
- * THIS CLASS MAINLY JUST HANDLES THE BUTTONS AND TEXT FIELDS FOUND IN /app/res/layout/activity_main.xml
- *
- *
- *
  *  TUTORIAL FOUND AT
  *  http://www.codebind.com/android-tutorials-and-examples/android-sqlite-tutorial-example/
  *  https://www.youtube.com/watch?v=cp2rL3sAFmI
  */
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,23 +21,33 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    DatabaseHelper myDb; //declare database object from DatabaseHelper Class
+    /* Declare new database object */
+    DatabaseHelper myDb;
 
-    EditText editDEPT, editCLASS, editSECTION, editTIME; //Declare a text field var to attach to 'txt field @+id'  found in activity.xml
-    Button btnAddData;                                   //Declare a button to attach to a 'button @+id'  found in activity.xml
+    /* used in log console to id msg */
+    private static final String TAG = "MAINActivity";
+
+    /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
+    EditText editDEPT, editCLASS, editSECTION, editTIME;
+    Button btnAddData;
     Button btnViewAll;
     Button btnViewUpdate; //update is currently broken
     Button btnDelete;
+    Button mSearchButton;
+    Button mScheduleButton;
+
+    /* onCreate(Bundle) is where you initialize your activity.
+    When Activity is started and application is not loaded,
+    then both onCreate() methods will be called. But for subsequent starts of Activity ,
+    the onCreate() of application will not be called */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);    //auto-generated
-        setContentView(R.layout.activity_main);//auto-generated
-
-        /* Declare new database object */
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         myDb = new DatabaseHelper(this); //will call constructor of Helper class
 
-        /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
+         /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
         editDEPT= (EditText)findViewById(R.id.editText_dept);   //attaches textfield '@+id' from activity.xml (in app/res/layout) to variable in this class
         editCLASS= (EditText)findViewById(R.id.editText_class); // this is basically (Cast-to-text-field) findViewbyId(integer);
         editSECTION= (EditText)findViewById(R.id.editText_section);
@@ -56,7 +63,29 @@ public class MainActivity extends AppCompatActivity {
         //UpdateData(); //this is broken, it needs a primary key to function correctly
         DeleteData();
 
-    }
+        /*  CHANGE TO SEARCH SCREEN IF BUTTON IS PRESSED */
+        mSearchButton = (Button)findViewById(R.id.search_button); // set button action
+        mSearchButton.setOnClickListener(new View.OnClickListener() { //set onClickListenere to 'listen' for button clicks
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "About to Start Search Activity");   //logs info to the console
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class); //define the 'intent' you want to accomplish 'Intent' aka new screen
+                startActivity(intent); //start the intent (new screen for this purpose)
+            }
+        });
+
+        /*  CHANGE TO SCHEDULE SCREEN IF BUTTON IS PRESSED */
+        mScheduleButton = (Button)findViewById(R.id.schedule_button);   // set button action
+        mScheduleButton.setOnClickListener(new View.OnClickListener() { //set onClickListenere to 'listen' for button clicks
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "About to Start Schedule Activity");   //logs info to the console
+                Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);  //define the 'intent' you want to accomplish 'Intent' aka new screen
+                startActivity(intent);    //start the intent (new screen for this purpose)
+            }
+        });
+
+    }//end onCreate method
 
     /* Handles Delete Data button when pressed. Calls deleteRows() in DatabaseHelper */
     public void DeleteData() {
@@ -87,9 +116,9 @@ public class MainActivity extends AppCompatActivity {
 
                         /* Call isUpdated() in DatabaseHelper class to update db */
                         boolean isUpdate = myDb.updateData(editDEPT.getText().toString(),
-                                                           editCLASS.getText().toString(),
-                                                           editSECTION.getText().toString(),
-                                                           editTIME.getText().toString()); //call method with parameters
+                                editCLASS.getText().toString(),
+                                editSECTION.getText().toString(),
+                                editTIME.getText().toString()); //call method with parameters
 
                         /* Check if isUpdated() returns true or false regarding data insertion */
                         if (isUpdate == true)
@@ -110,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
 
                         /* Call isInserted() in DatabaseHelper class */
                         boolean isInserted = myDb.insertData(editDEPT.getText().toString(),
-                                                             editCLASS.getText().toString(),
-                                                             editSECTION.getText().toString(),
-                                                             editTIME.getText().toString() );//call method with parameters
+                                editCLASS.getText().toString(),
+                                editSECTION.getText().toString(),
+                                editTIME.getText().toString() );//call method with parameters
 
                         /* Check if isInserted() returns true or false regarding data insertion */
                         if(isInserted == true)
@@ -163,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setMessage(Message);
         builder.show();
     }
+
 
 /*
     @Override
