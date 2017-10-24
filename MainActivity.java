@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState); //auto-generated
         setContentView(R.layout.activity_main); //auto-generated
         
-        myDb = new DatabaseHelper(this); //will call constructor of Helper class
+        myDb = new DatabaseHelper(this); //will call constructor of Helper class. Makes a db object.
 
          /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
         editDEPT= (EditText)findViewById(R.id.editText_dept);   //attaches textfield '@+id' from activity.xml (in app/res/layout) to variable in this class
