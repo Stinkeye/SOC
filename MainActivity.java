@@ -36,11 +36,7 @@ public class MainActivity extends AppCompatActivity {
     Button mSearchButton;
     Button mScheduleButton;
 
-    /* onCreate(Bundle) is where you initialize your activity.
-    When Activity is started and application is not loaded,
-    then both onCreate() methods will be called. But for subsequent starts of Activity ,
-    the onCreate() of application will not be called */
-
+    /* onCreate(Bundle) is where you initialize your activity. */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
