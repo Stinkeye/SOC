@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 
                     /* Call deleteData() in DatabaseHelper class */
                     public void onClick(View v) {
-                        Integer deletedRows = myDb.deleteData(editDEPT.getText().toString());
+                        Integer deletedRows = myDb.deleteData(editDEPT.getText().toString()); //returns 0 or 1 if rows deleted
 
                         /* Check if deleteRows() returns true or false regarding data deletion*/
                         if(deletedRows > 0)
