@@ -1,13 +1,6 @@
-package com.soc.matthewhaynes.sqliteapp;   //this is different depending on the PATH to your project. remember to CLEAN -> REBUILD when downloading
+package com.soc.matthewhaynes.sqliteapp; //this is different depending on the PATH to your project. remember to CLEAN -> REBUILD when downloading
 
-/****************CUT BELOW HERE IN ORDER TO PASTE *******************************/
-
-/*
-*
-*  DatabaseHelper Creates an SQL database object and handles all relevant methods
-*
-*
-* */
+/**********************************  CUT BELOW HERE TO PASTE *****************************************************/
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -36,7 +29,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {//creates table on creattion of object, takes the db as a parameter
+    public void onCreate(SQLiteDatabase db) {//creates table on creation of object, takes the db as a parameter
         db.execSQL("create table " + TABLE_NAME +" (DEPT TEXT,CLASS TEXT,SECTION TEXT,TIME TEXT)"); //create DB ROW names and data type
     }
 
