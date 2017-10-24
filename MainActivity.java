@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {        //invoke action when button is clicked ..notice pattern (this always here)
                     @Override                      //..notice pattern (this always here)
 
-                    /* Call isInserted() in DatabaseHelper class */
+                    /* Call deleteData() in DatabaseHelper class */
                     public void onClick(View v) {
                         Integer deletedRows = myDb.deleteData(editDEPT.getText().toString());
 
