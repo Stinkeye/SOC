@@ -1,38 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:background="@color/colorBackground"
-              android:paddingLeft="16dp"
-              android:paddingRight="16dp"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBackground"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:id="@+id/rViewTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <Button
+            android:id="@+id/btnPurge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Purge Catalogue"
+            tools:layout_editor_absoluteX="59dp"
+            tools:layout_editor_absoluteY="447dp"/>
+
+        <!-- SCHEDULE Button ..goes to schedule screen  -->
+        <Button
+            android:id="@+id/btnImportDb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:text="Import Cataclogue"
+            tools:layout_editor_absoluteX="247dp"
+            tools:layout_editor_absoluteY="447dp"/>
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/uofl"/>
+        app:srcCompat="@drawable/uofl"
+        android:layout_marginTop="15dp"
+        android:layout_below="@id/rViewTop"/>
 
-    <LinearLayout
-        android:layout_width="374dp"
-        android:layout_height="25dp"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="243dp"
-        android:layout_marginTop="15dp">
+    <RelativeLayout
+        android:id="@+id/rView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/imageView"
+        >
 
         <TextView
             android:id="@+id/tvSubject"
             android:layout_width="180dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="12dp"
-            android:layout_weight="0.03"
+            android:layout_height="wrap_content"
             android:text="SUBJECT"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#FFFFFF">
@@ -42,35 +66,29 @@
             android:id="@+id/spnSubject"
             android:layout_width="159dp"
             android:layout_height="31dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/white"
-            tools:layout_editor_absoluteX="59dp"
-            tools:layout_editor_absoluteY="293dp"/>
+            android:layout_alignParentRight="true"
+            android:background="@color/white">
+        </Spinner>
 
-    </LinearLayout>
+    </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="374dp"
-        android:layout_height="25dp"
-        android:orientation="horizontal"
-        android:weightSum="1"
-        tools:layout_editor_absoluteX="5dp"
-        tools:layout_editor_absoluteY="185dp"
-        android:layout_marginTop="15dp">
+
+    <RelativeLayout
+        android:id="@+id/rView2"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rView1"
+        >
+
 
         <Spinner
             android:id="@+id/spnCondition"
-            android:layout_width="101dp"
-            android:layout_height="match_parent"
+            android:layout_width="159dp"
+            android:layout_height="31dp"
             android:layout_weight="0.42"
-            android:background="@color/white"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="8dp">
+            android:background="@color/white"/>
 
-        </Spinner>
 
         <EditText
             android:id="@+id/editClass"
@@ -80,30 +98,26 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:text=" Class #"
-            tools:layout_editor_absoluteX="185dp"
-            tools:layout_editor_absoluteY="293dp"
+            android:layout_alignParentRight="true"
             />
-    </LinearLayout>
-
+    </RelativeLayout>
     <Button
-        android:id="@+id/button_add"
+        android:id="@+id/btnCheckCatalogueExist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="btnADD"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="323dp"/>
+        android:text="Check if Catalogue exists"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/rView2"/>
+
 
 
     <!-- VIEW DB button   -->
     <Button
-        android:id="@+id/button_viewAll"
+        android:id="@+id/btnViewAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Databse"
-        tools:layout_editor_absoluteX="131dp"
-        tools:layout_editor_absoluteY="382dp"/>
-
-    <!-- UPDATE button doesn't work  -->
+        android:layout_below="@id/btnCheckCatalogueExist"/>
 
     <!-- DELETE button  -->
     <Button
@@ -112,25 +126,33 @@
         android:layout_height="wrap_content"
         android:text="Delete"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="382dp"/>
+        tools:layout_editor_absoluteY="382dp"
+        android:layout_below="@id/btnViewAll"/>
 
-
-    <!-- SERACH DB Button ..goes to search screen  -->
-    <Button
-        android:id="@+id/search_button"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rViewBtm"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Serach DB"
-        tools:layout_editor_absoluteX="59dp"
-        tools:layout_editor_absoluteY="447dp"/>
+        android:layout_alignParentBottom="true">
 
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Serach DB"
+            tools:layout_editor_absoluteX="59dp"
+            tools:layout_editor_absoluteY="447dp"/>
 
-    <!-- SCHEDULE Button ..goes to schedule screen  -->
-    <Button
-        android:id="@+id/schedule_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Schedule"
-        tools:layout_editor_absoluteX="247dp"
-        tools:layout_editor_absoluteY="447dp"/>
-</LinearLayout>
+        <!-- SCHEDULE Button ..goes to schedule screen  -->
+        <Button
+            android:id="@+id/schedule_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:text="Schedule"
+            tools:layout_editor_absoluteX="247dp"
+            tools:layout_editor_absoluteY="447dp"/>
+    </RelativeLayout>
+</RelativeLayout>

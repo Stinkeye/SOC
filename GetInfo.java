@@ -1,4 +1,4 @@
-package com.soc.matthewhaynes.sqliteapp;
+package com.soc.matthewhaynes.soc;
 
 /**
  * Created by matthew.haynes on 11/14/2017.

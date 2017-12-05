@@ -1,33 +1,33 @@
-package com.soc.matthewhaynes.sqliteapp; //this is different depending on the PATH to your project. remember to CLEAN -> REBUILD when downloading
+package com.soc.matthewhaynes.soc;
 
 /**********************************  CUT BELOW HERE TO PASTE *****************************************************/
 
 
-import android.app.Activity;
-import android.app.LauncherActivity;
-import android.content.Intent;
-import android.database.Cursor;
-import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
+        import android.app.Activity;
+        import android.app.LauncherActivity;
+        import android.content.Intent;
+        import android.database.Cursor;
+        import android.os.AsyncTask;
+        import android.support.v7.app.AlertDialog;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.support.v7.widget.DefaultItemAnimator;
+        import android.support.v7.widget.LinearLayoutManager;
+        import android.support.v7.widget.RecyclerView;
+        import android.util.Log;
+        import android.view.View;
+        import android.widget.AdapterView;
+        import android.widget.ArrayAdapter;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.Spinner;
+        import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
+        import java.io.BufferedReader;
+        import java.io.IOException;
+        import java.io.InputStream;
+        import java.io.InputStreamReader;
+        import java.util.ArrayList;
 
 
 public class SearchActivity extends AppCompatActivity {
@@ -72,30 +72,13 @@ public class SearchActivity extends AppCompatActivity {
         inputStream = getResources().openRawResource(R.raw.cecs); //open file from raw folder
 
         /*Cast buttons and fields*/
-        btnViewAll = (Button) findViewById(R.id.button_viewSOC);
+
         class_num= (EditText)findViewById(R.id.editText);
+        btnViewAll= (Button)findViewById(R.id.btnViewSOC);
          /* Call all Button Methods. If one is Clicked an 'onClickListener' (listens for buttons clicks) will activate.  */
-        viewAll();
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        try{
-            String csvLine;
-            while ((csvLine= reader.readLine()) != null){
-                data= csvLine.split(",");
-                try{
-                    Log.e("Data ", ""+data[0]+" "+data[1]+" "+data[2]+" "+data[3]+" "+data[4]+" "+data[5]+" "+data[6]+" "+data[7]+" "+data[8]+" "+data[9]+" "+data[10]+" "+data[11] +" "+data[12]+" "+data[13]);
 
-                    /* Call isInserted() in DatabaseHelper class */
-                    /* !!!!!!!!! NEED TO CHECK IF DB IS POPULATED, then run this line */
-                    //socDb.insertData(data[0], data[1], data[2], data[3]);//call method with parameters
 
-                }catch(Exception e){
-                    Log.e("Problem",e.toString());
-                }
-            }
-        } catch (IOException ex){
-            throw new RuntimeException("Error in reading csv file: " +ex);
-        }
 
 
         /* DROP DOWN MENU CODE HERE    */
@@ -160,31 +143,36 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
+
+
+
         initViews();
         initObjects();
+        viewAll();
         filterSearch();
 
         /******* RecyclerView code **********************
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+         recyclerView.setHasFixedSize(true);
+         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+         listInfo = new ArrayList<>();
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        listInfo = new ArrayList<>();
+         //dummy data
+         for(int i= 0; i<10; i++) {
+         GetInfo listItem = new GetInfo(
+         "heading " + (i + 1),
+         "stuff1",
+         "stuf2",
+         "stuff3"
+         );
+         listInfo.add(listItem);
+         }
+         rv_adapter = new GetInfoRecyclerAdapter(listInfo, this);
+         recyclerView.setAdapter(rv_adapter);
 
-        //dummy data
-        for(int i= 0; i<10; i++) {
-            GetInfo listItem = new GetInfo(
-                    "heading " + (i + 1),
-                    "stuff1",
-                    "stuf2",
-                    "stuff3"
-            );
-            listInfo.add(listItem);
-        }
-        rv_adapter = new GetInfoRecyclerAdapter(listInfo, this);
-        recyclerView.setAdapter(rv_adapter);
+         ******************************************/
 
-        ******************************************/
+
+
     }
     //initialize recycler 'scroll' view
     private void initViews(){
@@ -216,8 +204,8 @@ public class SearchActivity extends AppCompatActivity {
             String subject = getInfo.getSubject();
             String clas  = getInfo.getClas().trim();
 
-             field2num = Integer.parseInt(clas);
-             clasnum   = Integer.parseInt(editClass);
+            field2num = Integer.parseInt(clas);
+            clasnum   = Integer.parseInt(editClass);
 
 
             switch (condition){
@@ -248,12 +236,12 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void getDataFromSQLite() {
         // AsyncTask is used that SQLite operation not blocks the UI Thread.
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTask<Void, Void, Void>(){
 
             @Override
             protected Void doInBackground(Void... params) {
                 listInfo.clear();
-                //socDb.getSetInfo();
+                socDb.getSetInfo();
                 listInfo.addAll(socDb.getSetInfo());
 
                 return null;
@@ -265,16 +253,10 @@ public class SearchActivity extends AppCompatActivity {
                 getInfoRecyclerAdapter.notifyDataSetChanged();
 
             }
+
+
         }.execute();
-
     }
-
-
-
-
-
-
-
 
 
 
@@ -286,21 +268,21 @@ public class SearchActivity extends AppCompatActivity {
                     public void onClick(View v) { //declare action to be taken when button clicked
 
                         /* set a Cursor object equal to the result of db query getAllData() in DatabaseHelper class */
-                       // Cursor res = socDb.getAllData("SOCtable");  //a Cursor object can point to a SINGLE row of the result fetched by a db query
-                       // if(res.getCount() == 0) {        //if no rows are sent back display a message
-                            // show message
+                        // Cursor res = socDb.getAllData("SOCtable");  //a Cursor object can point to a SINGLE row of the result fetched by a db query
+                        // if(res.getCount() == 0) {        //if no rows are sent back display a message
+                        // show message
                         //    showMessage("Error","Nothing found");
                         //    return;
-                       // }
+                        // }
 
                         /* ..not sure.  Some sort of buffer that reads in database rows */
-                       // StringBuffer buffer = new StringBuffer();                 //declare a buffer
-                       // while (res.moveToNext()) {                                //move Cursor object 'res' to the next row
-                       //     buffer.append("ID :"+ res.getString(0)+"\n");         //index 0 is first db column
-                       //     buffer.append("SUBJECT :"+ res.getString(1)+"\n");       //index 1 is second db column
-                       //     buffer.append("CLASS :"+ res.getString(2)+"\n");//index 2 is third db column
-                       //     buffer.append("SECTION :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
-                       // }
+                        // StringBuffer buffer = new StringBuffer();                 //declare a buffer
+                        // while (res.moveToNext()) {                                //move Cursor object 'res' to the next row
+                        //     buffer.append("ID :"+ res.getString(0)+"\n");         //index 0 is first db column
+                        //     buffer.append("SUBJECT :"+ res.getString(1)+"\n");       //index 1 is second db column
+                        //     buffer.append("CLASS :"+ res.getString(2)+"\n");//index 2 is third db column
+                        //     buffer.append("SECTION :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
+                        // }
 
                         // call method to show all db data in a message box
                         //showMessage("Data",buffer.toString());

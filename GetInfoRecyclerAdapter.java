@@ -1,18 +1,20 @@
-package com.soc.matthewhaynes.sqliteapp;
+package com.soc.matthewhaynes.soc;
 
-import android.content.Context;
-import android.support.v7.widget.AppCompatTextView;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
+        import android.content.Context;
+        //import android.support.v7.app.AlertController;
+        import android.support.v7.widget.AppCompatTextView;
+        import android.support.v7.widget.RecyclerView;
+        import android.util.Log;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.Button;
+        import android.widget.ImageView;
+        import android.widget.TextView;
+        import android.widget.Toast;
+
+        import java.util.ArrayList;
 
 /**
  * Created by matthew.haynes on 11/15/2017.
@@ -26,6 +28,7 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
     private ArrayList<GetInfo> mFilteredList;
     public Button btnAddClass;
     DatabaseHelper mDatabaseHelper;
+
 
     public GetInfoRecyclerAdapter(ArrayList<GetInfo> listGetInfo, Context mContext) {
         this.listGetInfo = listGetInfo;
@@ -71,16 +74,12 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
                     position = getAdapterPosition();
                     Log.v(TAG, "MAAAAAAAAAAADE It");
                     Toast.makeText(mContext,
-                                   listGetInfo.get(position).getId() + "\n" +
-                                   listGetInfo.get(position).getSubject() +
-                                   listGetInfo.get(position).getClas(),
-                                   Toast.LENGTH_LONG).show();
+                            listGetInfo.get(position).getId() + "\n" +
+                                    listGetInfo.get(position).getSubject() +
+                                    listGetInfo.get(position).getClas(),
+                            Toast.LENGTH_LONG).show();
                 }
             });
-            /*mDatabaseHelper.insertSched(listGetInfo.get(position).getId(),
-                                        listGetInfo.get(position).getSubject(),
-                                        listGetInfo.get(position).getClas(),
-                                        listGetInfo.get(position).getSection()); */
         }
 
 
