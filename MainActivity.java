@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i(TAG, "btnPurge");   //logs info to the console
                 myDb.purgeData("tblCatalogue");
-                Toast.makeText(MainActivity.this,"Catalogue PURGED",Toast.LENGTH_LONG).show();
             }
         });
 

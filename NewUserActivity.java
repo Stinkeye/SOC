@@ -3,6 +3,7 @@ package com.soc.matthewhaynes.soc;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -86,29 +87,41 @@ public class NewUserActivity extends AppCompatActivity {
                 String FirstName = editFirstName.getText().toString();
                 String LastName = editLastName.getText().toString();
                 String url = "http://socserver.azurewebsites.net/user";
-                final String InValided = "Invalid UserName or Password";
+                String InValided = "Missing Field";
+                String MissMatch = "Confirm password is not the same as password";
                 RequestParams params = new RequestParams();
                 params.put("username", NameText);
                 params.put("password", PassText);
                 params.put("firstName", FirstName);
                 params.put("lastName", LastName);
                 AsyncHttpClient client = new AsyncHttpClient();
-                if(ConfirmText.equals(PassText)) {
-                    client.post(url, params, new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                            if (responseBody != null) {
-                                Intent intent = new Intent(NewUserActivity.this, MainActivity.class); //define the 'intent' you want to accomplish 'Intent' aka new screen
-                                startActivity(intent); //start the intent (new screen for this purpose)
+                if(TextUtils.isEmpty(NameText) || TextUtils.isEmpty(PassText) || TextUtils.isEmpty(FirstName) || TextUtils.isEmpty(LastName) || TextUtils.isEmpty(ConfirmText))
+                {
+                    TextView Invalid = (TextView) findViewById(R.id.textView_MissingData);
+                    Invalid.setText(InValided);
+                }
+                else {
+                    if (ConfirmText.equals(PassText)) {
+                        client.post(url, params, new AsyncHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                                if (responseBody != null) {
+                                    Intent intent = new Intent(NewUserActivity.this, MainActivity.class); //define the 'intent' you want to accomplish 'Intent' aka new screen
+                                    startActivity(intent); //start the intent (new screen for this purpose)
+                                }
+                                //v.setEnabled(true);
                             }
-                            //v.setEnabled(true);
-                        }
 
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                            //v.setEnabled(true);
-                        }
-                    });
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                                //v.setEnabled(true);
+                            }
+                        });
+                    }
+                    else{
+                        TextView Invalid = (TextView) findViewById(R.id.textView_MissingData);
+                        Invalid.setText(MissMatch);
+                    }
                 }
             }
         });
