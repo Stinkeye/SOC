@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context="com.soc.matthewhaynes.soc.ScheduleActivity"
     tools:layout_editor_absoluteY="81dp"
     tools:layout_editor_absoluteX="0dp">
@@ -18,39 +19,47 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="CLASS SCHEDULE"
         android:layout_marginTop="16dp"
+        android:textColor="@color/white"
         />
 
 
     <Button
         android:id="@+id/btnViewSched"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="View Schedule"
-        android:layout_below="@id/schRecView"
-        />
-
-    <Button
-        android:id="@+id/btnTblExist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Does Table Exists?"
-        android:layout_below="@id/schRecView"
-        android:layout_alignParentRight="true"
-        />
-
-    <Button
-        android:id="@+id/btnDeleteTbl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete Schedule"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/schdlTitle"
         />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/schRecView"
         android:layout_width="match_parent"
         android:layout_height="350dp"
-        android:layout_below="@id/schdlTitle"/>
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="12dp"/>
+
+    <Button
+        android:id="@+id/btnSchedDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete by id"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        />
+
+    <EditText
+        android:id="@+id/etID"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnSchedDelete"
+        android:layout_alignBottom="@+id/btnSchedDelete"
+        android:layout_marginStart="24dp"
+        android:layout_toEndOf="@+id/btnSchedDelete"
+        android:background="@color/white"
+        android:text=" ID#"
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 
 
 </RelativeLayout>

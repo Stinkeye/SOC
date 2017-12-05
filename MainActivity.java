@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -56,10 +55,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myDb = new DatabaseHelper(this); //will call constructor of Helper class
 
         Log.i(TAG, "In Main");   //logs info to the console
 
-        myDb = new DatabaseHelper(this); //will call constructor of Helper class
+
         editCLASS = (EditText)(findViewById(R.id.editClass));
 
 

@@ -1,88 +1,124 @@
 package com.soc.matthewhaynes.soc;
 
 
-        import android.content.Context;
-        //import android.support.v7.app.AlertController;
-        import android.support.v7.widget.AppCompatTextView;
-        import android.support.v7.widget.RecyclerView;
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.Button;
-        import android.widget.ImageView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.content.Context;
+//import android.support.v7.app.AlertController;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import java.util.ArrayList;
+import java.util.ArrayList;
 
 /**
  * Created by matthew.haynes on 11/15/2017.
  */
 
-public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecyclerAdapter.GetInfoViewHolder>  {
+public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecyclerAdapter.GetInfoViewHolder> {
+
+
+    DatabaseHelper myDb;
     private static final String TAG = "GetInfoRecyclerAdapter";
     private ArrayList<GetInfo> listGetInfo;
     public ImageView overflow;
     private Context mContext;
     private ArrayList<GetInfo> mFilteredList;
     public Button btnAddClass;
-    DatabaseHelper mDatabaseHelper;
 
 
     public GetInfoRecyclerAdapter(ArrayList<GetInfo> listGetInfo, Context mContext) {
         this.listGetInfo = listGetInfo;
         this.mContext = mContext;
         this.mFilteredList = listGetInfo;
-
-
     }
 
     public class GetInfoViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView tvId;
-        public TextView tvSubject;
-        public TextView tvClas;
-        public TextView tvSection;
+        public TextView tvC1;
+        public TextView tvC2;
+        public TextView tvC3;
+        public TextView tvC4;
         public  ImageView overflow;
         public int position;
 
-        public String ID;
-        public String subject;
-        public String clas;
-        public String sect;
+        public String c1;
+        public String c2;
+        public String c3;
+        public String c4;
+        public String data;
+
 
 
         public GetInfoViewHolder(View view) {
             super(view);
-            tvId = (TextView) view.findViewById(R.id.textViewId);
-            tvSubject = (TextView) view.findViewById(R.id.textViewSubject);
-            tvClas = (TextView) view.findViewById(R.id.textViewClas);
-            tvSection = (TextView) view.findViewById(R.id.textViewSection);
+
+
+            /** get TextView contents from card **/
+            tvC1 = (TextView) view.findViewById(R.id.textViewId);
+            tvC2 = (TextView) view.findViewById(R.id.textViewSubject);
+            tvC3 = (TextView) view.findViewById(R.id.textViewClas);
+            tvC4 = (TextView) view.findViewById(R.id.textViewSection);
+
+            /** transform Textviews into Strings **/
+            c1 = tvC1.toString();
+            c2 = tvC2.toString();
+            c3 = tvC3.toString();
+            c4 = tvC4.toString();
+
+            position = getAdapterPosition(); //get position of card in list
+
+            /** Add Class Button in cardview **/
             btnAddClass = (Button) view.findViewById(R.id.btnAddClass);
-
-            ID = tvId.toString();
-            subject = tvSubject.toString();
-            clas = tvClas.toString();
-            sect = tvSection.toString();
-            position = getAdapterPosition();
-
-
             btnAddClass.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v){
                     position = getAdapterPosition();
-                    Log.v(TAG, "MAAAAAAAAAAADE It");
-                    Toast.makeText(mContext,
-                            listGetInfo.get(position).getId() + "\n" +
-                                    listGetInfo.get(position).getSubject() +
-                                    listGetInfo.get(position).getClas(),
-                            Toast.LENGTH_LONG).show();
+                    myDb = new DatabaseHelper(mContext);
+                    Cursor res = myDb.searchCol1("tblCatalogue", listGetInfo.get(position).getC1()); //cursor for retrieving data row by id
+                    //data = myDb.searchC1("tblCatalogue", listGetInfo.get(position).getC1()); //cursor for retrieving data row by id
+                    Log.i(TAG, "btnAddClass");
+                    Toast.makeText(mContext,"Class Added" , Toast.LENGTH_LONG).show();
+
+
+
+
+
+
+
+                    /** Insert Data into db personal Schedule Table **/
+                    if(res.moveToFirst()) {
+                        myDb.insertData("tblClass",
+                                res.getString(res.getColumnIndex("id")),
+                                res.getString(res.getColumnIndex("subject")),
+                                res.getString(res.getColumnIndex("class")),
+                                res.getString(res.getColumnIndex("section")),
+                                res.getString(res.getColumnIndex("description")),
+                                res.getString(res.getColumnIndex("date")),
+                                res.getString(res.getColumnIndex("day")),
+                                res.getString(res.getColumnIndex("time")),
+                                res.getString(res.getColumnIndex("roomNum")),
+                                res.getString(res.getColumnIndex("pop")),
+                                res.getString(res.getColumnIndex("waitList")),
+                                res.getString(res.getColumnIndex("profesor")),
+                                res.getString(res.getColumnIndex("credits")),
+                                res.getString(res.getColumnIndex("location")));
+                    }
+
+
+                    myDb.close();
                 }
             });
         }
-
-
     }
 
 
@@ -99,10 +135,10 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
 
     @Override
     public void onBindViewHolder(final GetInfoViewHolder holder, int position) {
-        holder.tvId.setText(listGetInfo.get(position).getId());
-        holder.tvSubject.setText(listGetInfo.get(position).getSubject());
-        holder.tvClas.setText(listGetInfo.get(position).getClas());
-        holder.tvSection.setText(listGetInfo.get(position).getSection());
+        holder.tvC1.setText(listGetInfo.get(position).getC1());
+        holder.tvC2.setText(listGetInfo.get(position).getC2());
+        holder.tvC3.setText(listGetInfo.get(position).getC3());
+        holder.tvC4.setText(listGetInfo.get(position).getC4());
     }
 
 

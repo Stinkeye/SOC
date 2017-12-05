@@ -10,11 +10,12 @@
                 android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_marginTop="15dp"
         android:id="@+id/rViewTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp">
 
         <Button
             android:id="@+id/btnPurge"
@@ -42,8 +43,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/uofl"
+        android:layout_below="@id/tvSemester"/>
+
+    <TextView
+        android:id="@+id/tvSemester"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FALL 2017 CATALOGUE"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/btnCheckCatalogueExist"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:layout_below="@id/rViewTop"/>
+        >
+    </TextView>
 
     <RelativeLayout
         android:id="@+id/rView1"
@@ -101,13 +114,15 @@
             android:layout_alignParentRight="true"
             />
     </RelativeLayout>
+
     <Button
         android:id="@+id/btnCheckCatalogueExist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Check if Catalogue exists"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/rView2"/>
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rViewTop"
+        android:layout_marginTop="5dp"
+        android:text="Check if Catalogue exists"/>
 
 
 
@@ -116,18 +131,12 @@
         android:id="@+id/btnViewAll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Databse"
-        android:layout_below="@id/btnCheckCatalogueExist"/>
+        android:layout_alignBaseline="@+id/btnCheckCatalogueExist"
+        android:layout_alignBottom="@+id/btnCheckCatalogueExist"
+        android:layout_alignParentEnd="true"
+        android:text="View Databse"/>
 
     <!-- DELETE button  -->
-    <Button
-        android:id="@+id/button_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="382dp"
-        android:layout_below="@id/btnViewAll"/>
 
     <RelativeLayout
         android:id="@+id/rViewBtm"

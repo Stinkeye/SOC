@@ -73,77 +73,9 @@ public class SearchActivity extends AppCompatActivity {
 
         /*Cast buttons and fields*/
 
-        class_num= (EditText)findViewById(R.id.editText);
+
         btnViewAll= (Button)findViewById(R.id.btnViewSOC);
          /* Call all Button Methods. If one is Clicked an 'onClickListener' (listens for buttons clicks) will activate.  */
-
-
-
-
-
-        /* DROP DOWN MENU CODE HERE    */
-        spinner1 = (Spinner) findViewById(R.id.spinner);
-        adapter = ArrayAdapter.createFromResource(this,R.array.spinner_options, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner1.setAdapter(adapter);
-        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+ " is selected", Toast.LENGTH_LONG).show();
-
-                switch (position){
-                    case 0:
-                        Toast.makeText(getBaseContext(),"CECS is selected", Toast.LENGTH_LONG).show();
-                        field1 = "CECS";
-                        break;
-                    case 1:
-                        Toast.makeText(getBaseContext(),"MATH is selected", Toast.LENGTH_LONG).show();
-                        field1 = "MATH";
-                        break;
-                    case 2:
-                        Toast.makeText(getBaseContext(),"ECE is selected", Toast.LENGTH_LONG).show();
-                        field1 = "ECE";
-                        break;
-                }
-            }
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
-        adapter = ArrayAdapter.createFromResource(this,R.array.number_options, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner2.setAdapter(adapter);
-        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    case 0:
-                        Toast.makeText(getBaseContext(),"class is equal to selected", Toast.LENGTH_LONG).show();
-                        Log.d("EQUAL 2", "msg 2");
-                        condition = "equalTo";
-                        break;
-                    case 1:
-                        Toast.makeText(getBaseContext(),"class greater than selected", Toast.LENGTH_LONG).show();
-                        condition = "greaterThan";
-                        break;
-                    case 2:
-                        Toast.makeText(getBaseContext(),"class less than selected", Toast.LENGTH_LONG).show();
-                        condition = "lessThan";
-                        break;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
 
 
         initViews();
@@ -151,7 +83,7 @@ public class SearchActivity extends AppCompatActivity {
         viewAll();
         filterSearch();
 
-        /******* RecyclerView code **********************
+        /******* RecyclerView TEST code **********************
          recyclerView.setHasFixedSize(true);
          recyclerView.setLayoutManager(new LinearLayoutManager(this));
          listInfo = new ArrayList<>();
@@ -201,8 +133,8 @@ public class SearchActivity extends AppCompatActivity {
         ArrayList<GetInfo> newList = new ArrayList<>();
 
         for (GetInfo getInfo : listInfo){
-            String subject = getInfo.getSubject();
-            String clas  = getInfo.getClas().trim();
+            String subject = getInfo.getC2();
+            String clas  = getInfo.getC3().trim();
 
             field2num = Integer.parseInt(clas);
             clasnum   = Integer.parseInt(editClass);

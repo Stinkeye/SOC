@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String col_12 = "profesor";
     public static final String col_13 = "credits";
     public static final String col_14 = "location";
+    public String[] data;
+    public String myString;
 
     public static final String Create_tblCat = "CREATE TABLE IF NOT EXISTS " + tblCatalogue + " (" +
             col_1 + " TEXT, " +
@@ -81,6 +84,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(Create_tblCat); //create DB ROW names and data type
         db.execSQL(Create_tblClass);
+        data = new String[14];
+
     }
 
     @Override
@@ -104,25 +109,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    /* returns 1 for successful delete from db, 0 for fail */
+    public Integer deleteData (String colInfo, String tableName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(tableName, "id = ?",new String[] {colInfo}); //deletes according to string in DEPT filed (1st txt field)
+    }
+
     /* Insert data into the DB */
     public boolean insertData(String tableName, String c1, String c2, String c3, String c4, String c5, String c6, String c7, String c8, String c9, String c10, String c11, String c12, String c13, String c14) {
         SQLiteDatabase db = this.getWritableDatabase();    //declare db we want to alter
         ContentValues contentValues = new ContentValues(); //ContentValues creates and EMPTY SET of values ..below fills empty set
-        contentValues.put(col_1, c1 );       //insert data into db column 1
-        contentValues.put(col_2, c2 );       //insert data into db column 2
-        contentValues.put(col_3, c3);        //insert data into db column 3
-        contentValues.put(col_4, c4);        //insert data into db column 4
-        contentValues.put(col_5, c5);        //insert data into db column 5
-        contentValues.put(col_6, c6);        //insert data into db column 6
-        contentValues.put(col_7, c7);        //insert data into db column 7
-        contentValues.put(col_8, c8);        //insert data into db column 8
-        contentValues.put(col_9, c9);        //insert data into db column 9
-        contentValues.put(col_10, c10);      //insert data into db column 10
-        contentValues.put(col_11, c11);      //insert data into db column 11
-        contentValues.put(col_12, c12);      //insert data into db column 12
-        contentValues.put(col_13, c13);      //insert data into db column 13
-        contentValues.put(col_14, c14);      //insert data into db column 14
-
+        contentValues.put(col_1, c1 );       //insert data into db table column 1
+        contentValues.put(col_2, c2 );       //insert data into db table column 2
+        contentValues.put(col_3, c3);        //insert data into db table column 3
+        contentValues.put(col_4, c4);        //insert data into db table column 4
+        contentValues.put(col_5, c5);        //insert data into db table column 5
+        contentValues.put(col_6, c6);        //insert data into db table column 6
+        contentValues.put(col_7, c7);        //insert data into db table column 7
+        contentValues.put(col_8, c8);        //insert data into db table column 8
+        contentValues.put(col_9, c9);        //insert data into db table column 9
+        contentValues.put(col_10, c10);      //insert data into db table column 10
+        contentValues.put(col_11, c11);      //insert data into db table column 11
+        contentValues.put(col_12, c12);      //insert data into db table column 12
+        contentValues.put(col_13, c13);      //insert data into db table column 13
+        contentValues.put(col_14, c14);      //insert data into db table column 14
 
         long result = db.insert(tableName, null, contentValues);
         if (result == -1) {
@@ -140,8 +150,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select * from " + tableName, null); //this is the actual db query
         //db.close();
         return res;
-
     }
+
+    public Cursor searchCol1(String tableName, String id){
+
+        SQLiteDatabase db = this.getReadableDatabase();             //declare db we want to alter
+        Cursor res = db.rawQuery("select * from " + tableName + " WHERE " + col_1 + "= ?", new String[] {id}); //this is the actual db query
+        //db.close();
+        return res;
+    }
+
+    public String searchC1(String tableName, String id){
+
+        SQLiteDatabase db = this.getReadableDatabase();             //declare db we want to alter
+        Cursor res = db.rawQuery("select * from " + tableName + " WHERE " + col_1 + "= ?", new String[] {id}); //this is the actual db query
+
+
+        if(res.moveToFirst()) {
+            myString = res.getString(res.getColumnIndex(col_1));
+        }else{
+            Log.i("bad", "bad");
+        }
+        //db.close();
+        return myString;
+    }
+
+
+
 
     public Cursor checkDbExists(String tableName){
 
@@ -167,12 +202,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if(cursor.moveToFirst()){
             do{
-                GetInfo getInfo = new GetInfo("stuff","stuff","stuff","stuff");
+                GetInfo getInfo = new GetInfo();
 
-                getInfo.setId(cursor.getString(cursor.getColumnIndex(col_1)));
-                getInfo.setSubject(cursor.getString(cursor.getColumnIndex(col_2)));
-                getInfo.setClas(cursor.getString(cursor.getColumnIndex(col_3)));
-                getInfo.setSection(cursor.getString(cursor.getColumnIndex(col_4)));
+                getInfo.setC1(cursor.getString(cursor.getColumnIndex(col_1)));
+                getInfo.setC2(cursor.getString(cursor.getColumnIndex(col_2)));
+                getInfo.setC3(cursor.getString(cursor.getColumnIndex(col_3)));
+                getInfo.setC4(cursor.getString(cursor.getColumnIndex(col_4)));
 
                 //add record to list
                 infoList.add(getInfo);
