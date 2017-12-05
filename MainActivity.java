@@ -1,22 +1,19 @@
-package com.soc.matthewhaynes.sqliteapp; //this is different depending on the PATH to your project. remember to CLEAN -> REBUILD when downloading
+package com.soc.matthewhaynes.soc;
 
-/**********************************  CUT BELOW HERE TO PASTE *****************************************************/
-
-/**
- *  TUTORIAL FOUND AT
- *  http://www.codebind.com/android-tutorials-and-examples/android-sqlite-tutorial-example/
- *  https://www.youtube.com/watch?v=cp2rL3sAFmI
- */
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -26,198 +23,257 @@ import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
-    /* Declare new database object */
-    DatabaseHelper myDb;
+    DatabaseHelper myDb; /* Declare new database object */
+
+    ArrayAdapter<CharSequence> adapter; //adapter pushes strings from string.xml to drop down menu
+
+    InputStream inputStream; // input stream
 
 
+    /** define Strings **/
+    final String TAG = "MainActivity: ";
+    String data[];
+    String condition, field1;
 
-    /* used in log console to id msg */
-    private static final String TAG = "MAINActivity";
-
-    /* declare buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
-    EditText editDEPT, editCLASS, editSECTION, editTIME;
-    Button btnAddData;
+    /** define buttons **/
     Button btnViewAll;
-    Button btnViewUpdate; //update is currently broken
-    Button btnDelete;
-    Button mSearchButton;
-    Button mScheduleButton;
+    Button btnImportDb;
+    Button btnCheckSOC;
+    Button btnSearchButton;
+    Button btnScheduleButton;
+    Button btnPurge;
+    EditText editCLASS; /** Text Input **/
 
-    InputStream inputStream;
-    String[] data;
-    /* onCreate(Bundle) is where you initialize your activity.
-    When Activity is started and application is not loaded,
-    then both onCreate() methods will be called. But for subsequent starts of Activity ,
-    the onCreate() of application will not be called */
+    /* Drop down menus */
+    Spinner spinner1; //drop down menu
+    Spinner spinner2; //drop down menu
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         myDb = new DatabaseHelper(this); //will call constructor of Helper class
 
-        /*
-        inputStream = getResources().openRawResource(R.raw.cecs);
-
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        try{
-            String csvLine;
-            while ((csvLine= reader.readLine()) != null){
-                data= csvLine.split(",");
-                try{
-                    Log.e("Data ", ""+data[0]+" "+data[1]+" "+data[2]+" "+data[3]+" "+data[4]+" "+data[5]+" "+data[6]+" "+data[7]+" "+data[8]+" "+data[9]+" "+data[10]+" "+data[11] +" "+data[12]+" "+data[13]);
-                }catch(Exception e){
-                    Log.e("Problem",e.toString());
-                }
-            }
-        } catch (IOException ex){
-            throw new RuntimeException("Error in reading csv file: " +ex);
-        }
-        */
-
-         /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
-        editDEPT= (EditText)findViewById(R.id.editText_dept);   //attaches textfield '@+id' from activity.xml (in app/res/layout) to variable in this class
-        editCLASS= (EditText)findViewById(R.id.editText_class); // this is basically (Cast-to-text-field) findViewbyId(integer);
-        editSECTION= (EditText)findViewById(R.id.editText_section);
-        editTIME= (EditText)findViewById(R.id.editText_time);
-        btnAddData = (Button) findViewById(R.id.button_add); //attaches Button '@+id' from activity.xml (in app/res/layout) to variable in this class
-        btnViewAll = (Button) findViewById(R.id.button_viewAll);
-        btnViewUpdate= (Button) findViewById(R.id.button_update);
-        btnDelete = (Button) findViewById(R.id.button_delete);
+        Log.i(TAG, "In Main");   //logs info to the console
 
 
+        editCLASS = (EditText)(findViewById(R.id.editClass));
 
-
-        /* Call all Button Methods. If one is Clicked an 'onClickListener' (listens for buttons clicks) will activate.  */
-        AddData();
-        viewAll();
-        //UpdateData(); //this is broken, it needs a primary key to function correctly
-        DeleteData();
 
         /*  CHANGE TO SEARCH SCREEN IF BUTTON IS PRESSED */
-        mSearchButton = (Button)findViewById(R.id.search_button); // set button action
-        mSearchButton.setOnClickListener(new View.OnClickListener() { //set onClickListenere to 'listen' for button clicks
+        btnSearchButton = (Button)findViewById(R.id.search_button); // set button action
+        btnSearchButton.setOnClickListener(new View.OnClickListener() { //set onClickListenere to 'listen' for button clicks
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "About to Start Search Activity");   //logs info to the console
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class); //define the 'intent' you want to accomplish 'Intent' aka new screen
+                Bundle extras = new Bundle();
+                extras.putString("field1",field1);
+                extras.putString("condition",condition);
+                extras.putString("editClass",editCLASS.getText().toString());
+                intent.putExtras(extras);
                 startActivity(intent); //start the intent (new screen for this purpose)
             }
         });
 
+
         /*  CHANGE TO SCHEDULE SCREEN IF BUTTON IS PRESSED */
-        mScheduleButton = (Button)findViewById(R.id.schedule_button);   // set button action
-        mScheduleButton.setOnClickListener(new View.OnClickListener() { //set onClickListenere to 'listen' for button clicks
+        btnScheduleButton = (Button)findViewById(R.id.schedule_button);   // set button action
+        btnScheduleButton.setOnClickListener(new View.OnClickListener() { //set onClickListenere to 'listen' for button clicks
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "About to Start Schedule Activity");   //logs info to the console
+                Log.wtf(TAG, "About to Start Schedule Activity");   //logs info to the console
                 Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);  //define the 'intent' you want to accomplish 'Intent' aka new screen
                 startActivity(intent);    //start the intent (new screen for this purpose)
             }
         });
 
-    }//end onCreate method
 
-    /* Handles Delete Data button when pressed. Calls deleteRows() in DatabaseHelper */
-    public void DeleteData() {
-        btnDelete.setOnClickListener(               //add a 'onClickListener' to button ..notice pattern (this always here)
-                new View.OnClickListener() {        //invoke action when button is clicked ..notice pattern (this always here)
-                    @Override                      //..notice pattern (this always here)
+        /* button: Purge button */
+        btnPurge = (Button)findViewById(R.id.btnPurge);   // set button action
+        btnPurge.setOnClickListener(new View.OnClickListener() { //set onClickListenere to 'listen' for button clicks
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "btnPurge");   //logs info to the console
+                myDb.purgeData("tblCatalogue");
+            }
+        });
 
-                    /* Call isInserted() in DatabaseHelper class */
-                    public void onClick(View v) {
-                        Integer deletedRows = myDb.deleteData(editDEPT.getText().toString());
+        /* button: Import DB Button */
+        inputStream = getResources().openRawResource(R.raw.cecs);
+        btnImportDb = (Button) findViewById(R.id.btnImportDb);
+        btnImportDb.setOnClickListener(new View.OnClickListener() { //set onClickListener to 'listen' for button clicks
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "Import DB");   //logs info to the console
 
-                        /* Check if deleteRows() returns true or false regarding data deletion*/
-                        if(deletedRows > 0)
-                            Toast.makeText(MainActivity.this,"Data Deleted",Toast.LENGTH_LONG).show();  //Toast = temporary message bubble popup
-                        else
-                            Toast.makeText(MainActivity.this,"Data not Deleted",Toast.LENGTH_LONG).show(); //Toast = temporary message bubble popup
-                    }
-                }
-        );
-    }
+                Cursor cursor;
+                cursor = myDb.getAllData("tblCatalogue");
 
-    /* all update data functions are broken ..disregard for now */
-    public void UpdateData() {
-        btnViewUpdate.setOnClickListener(     //add a 'onClickListener' to button ..notice pattern (this always here)
-                new View.OnClickListener() {  //invoke action when button is clicked ..notice pattern (this always here)
-                    @Override                 //..notice pattern (this always here)
-                    public void onClick(View v) { //declare action to be taken when button clicked
-
-                        /* Call isUpdated() in DatabaseHelper class to update db */
-                        boolean isUpdate = myDb.updateData(editDEPT.getText().toString(),
-                                editCLASS.getText().toString(),
-                                editSECTION.getText().toString(),
-                                editTIME.getText().toString()); //call method with parameters
-
-                        /* Check if isUpdated() returns true or false regarding data insertion */
-                        if (isUpdate == true)
-                            Toast.makeText(MainActivity.this, "Data Update", Toast.LENGTH_LONG).show();   //Toast = temporary message bubble popup
-                        else
-                            Toast.makeText(MainActivity.this, "Data not Updated", Toast.LENGTH_LONG).show();  //Toast = temporary message bubble popup
-                    }
-                }
-        );
-    }
-
-    /* Handles Add Data button when pressed. Calls isInserted() in DatabaseHelper. Data will be added to database*/
-    public  void AddData() {
-        btnAddData.setOnClickListener(         //add a 'onClickListener' to button ..notice pattern (this always here)
-                new View.OnClickListener() {   //invoke action when button is clicked ..notice pattern (this always here)
-                    @Override                  //..notice pattern (this always here)
-                    public void onClick(View v) { //declare action to be taken when button clicked
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                try{
+                    String csvLine;
+                    if( cursor.getCount() <= 0){
+                        Toast.makeText(MainActivity.this,"Importing Catalouge",Toast.LENGTH_LONG).show();
+                        //cursor.close();
+                        while ((csvLine= reader.readLine()) != null){
+                            data= csvLine.split(",");
+                            try{
+                                Log.e("Data ", ""+data[0]+" "+data[1]+" "+data[2]+" "+data[3]+" "+data[4]+" "+data[5]+" "+data[6]+" "+data[7]+" "+data[8]+" "+data[9]+" "+data[10]+" "+data[11] +" "+data[12]+" "+data[13]);
 
                         /* Call isInserted() in DatabaseHelper class */
-                        boolean isInserted = myDb.insertData(editDEPT.getText().toString(),
-                                                             editCLASS.getText().toString(),
-                                                             editSECTION.getText().toString(),
-                                                             editTIME.getText().toString() );//call method with parameters
+                        /* !!!!!!!!oooo! NEED TO CHECK IF DB IS POPULATED, then run this line */
+                        myDb.insertData("tblCatalogue", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13]);//insert data from csv to db
 
-                        /* Check if isInserted() returns true or false regarding data insertion */
-                        if(isInserted == true)
-                            Toast.makeText(MainActivity.this,"Data Inserted",Toast.LENGTH_LONG).show();  //Toast = temporary message bubble popup
-                        else
-                            Toast.makeText(MainActivity.this,"Data not Inserted",Toast.LENGTH_LONG).show();  //Toast = temporary message bubble popup
-                    }
-                }
-        );
-    }
-
-    /* Handles ViewDatabase button when pressed. Calls getAllData() in DatabaseHelper */
-    public void viewAll() {
-        btnViewAll.setOnClickListener(            //add a 'onClickListener' to button ..notice pattern (this always here)
-                new View.OnClickListener() {      //invoke action when button is clicked ..notice pattern (this always here)
-                    @Override                     //..notice pattern (this always here)
-                    public void onClick(View v) { //declare action to be taken when button clicked
-
-                        /* set a Cursor object equal to the result of db query getAllData() in DatabaseHelper class */
-                        Cursor res = myDb.getAllData();  //a Cursor object can point to a SINGLE row of the result fetched by a db query
-                        if(res.getCount() == 0) {        //if no rows are sent back display a message
-                            // show message
-                            showMessage("Error","Nothing found");
-                            return;
+                            }catch(Exception e){
+                                Log.e("Problem",e.toString());
+                                Toast.makeText(MainActivity.this,"Data NOT ENTERED",Toast.LENGTH_LONG).show();
+                            }
                         }
+                    }else{
+                        cursor.close();
+                        Toast.makeText(MainActivity.this,"Catalogue Already Imported",Toast.LENGTH_LONG).show();
+                    }
+                } catch (IOException ex){
+                    throw new RuntimeException("Error in reading csv file: " +ex);
+                }
+
+            }
+        });
+
+
+        /* button: View Imported Database */
+        btnViewAll = (Button) findViewById(R.id.btnViewAll);
+        btnViewAll.setOnClickListener(new View.OnClickListener() { //set onClickListener to 'listen' for button clicks
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "btnViewAll");   //logs info to the console
+
+                /* set a Cursor object equal to the result of db query getAllData() in DatabaseHelper class */
+
+
+                Cursor res = myDb.getAllData("tblCatalogue");  //a Cursor object can point to a SINGLE row of the result fetched by a db query
+
+
+                if(res.getCount() == 0) {        //if no rows are sent back display a message
+                    // show message
+                    showMessage("Error","Nothing found");
+                    return;
+                }
 
                         /* ..not sure.  Some sort of buffer that reads in database rows */
-                        StringBuffer buffer = new StringBuffer();                 //declare a buffer
-                        while (res.moveToNext()) {                                //move Cursor object 'res' to the next row
-                            buffer.append("DEPT :"+ res.getString(0)+"\n");         //index 0 is first db column
-                            buffer.append("CLASS :"+ res.getString(1)+"\n");       //index 1 is second db column
-                            buffer.append("SECTION :"+ res.getString(2)+"\n");//index 2 is third db column
-                            buffer.append("TIME :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
-                        }
-
-                        // call method to show all db data in a message box
-                        showMessage("Data",buffer.toString());
-                    }
+                StringBuffer buffer = new StringBuffer();                 //declare a buffer
+                while (res.moveToNext()) {                                //move Cursor object 'res' to the next row
+                    buffer.append("id :"+ res.getString(0)+"\n");         //index 0 is first db column
+                    buffer.append("subject :"+ res.getString(1)+"\n");       //index 1 is second db column
+                    buffer.append("class :"+ res.getString(2)+"\n");//index 2 is third db column
+                    buffer.append("section :"+ res.getString(3)+"\n");      //index 3 is fourth db column
+                    buffer.append("description :"+ res.getString(4)+"\n\n");      //index 3 is fourth db column
                 }
-        );
-    }
 
-    /* method to show requested db data in message box */
+                // call method to show all db data in a message box
+                showMessage("Data",buffer.toString());
+
+            }
+        });
+
+        /** button: Check if catalogue exists **/
+        btnCheckSOC = (Button) findViewById(R.id.btnCheckCatalogueExist);
+        btnCheckSOC.setOnClickListener(new View.OnClickListener() { //set onClickListener to 'listen' for button clicks
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "btnCheckSOC");   //logs info to the console
+
+                Cursor cursor;
+                cursor = myDb.checkDbExists("tblCatalogue");
+
+                switch (cursor.getCount()){
+
+                    case 0:
+                        Toast.makeText(MainActivity.this,"Table DOES NOT EXIST",Toast.LENGTH_LONG).show();
+                        break;
+                    case 1:
+                        cursor = myDb.getAllData("tblCatalogue");
+                        if( cursor.getCount() > 0 ){
+                            Toast.makeText(MainActivity.this,"Table Exists & Populated",Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(MainActivity.this,"Table Exists & is EMPTY",Toast.LENGTH_LONG).show();
+                        }
+                        break;
+                }
+                myDb.close();
+                cursor.close();
+            }
+        });
+
+
+                /* DROP DOWN MENU CODE HERE    */
+        spinner1 = (Spinner) findViewById(R.id.spnSubject);
+        adapter = ArrayAdapter.createFromResource(this,R.array.spinner_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(adapter);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+ " is selected", Toast.LENGTH_LONG).show();
+
+                switch (position){
+                    case 0:
+                        Toast.makeText(getBaseContext(),"CECS is selected", Toast.LENGTH_LONG).show();
+                        field1 = "CECS";
+                        break;
+                    case 1:
+                        Toast.makeText(getBaseContext(),"MATH is selected", Toast.LENGTH_LONG).show();
+                        field1 = "MATH";
+                        break;
+                    case 2:
+                        Toast.makeText(getBaseContext(),"ECE is selected", Toast.LENGTH_LONG).show();
+                        field1 = "ECE";
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        spinner2 = (Spinner) findViewById(R.id.spnCondition);
+        adapter = ArrayAdapter.createFromResource(this,R.array.number_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(adapter);
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        Toast.makeText(getBaseContext(),"class is equal to selected", Toast.LENGTH_LONG).show();
+                        Log.d("EQUAL 2", "msg 2");
+                        condition = "equalTo";
+                        break;
+                    case 1:
+                        Toast.makeText(getBaseContext(),"class greater than selected", Toast.LENGTH_LONG).show();
+                        condition = "greaterThan";
+                        break;
+                    case 2:
+                        Toast.makeText(getBaseContext(),"class less than selected", Toast.LENGTH_LONG).show();
+                        condition = "lessThan";
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+    }//end OnCreate
+
+
+
     public void showMessage(String title,String Message){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -226,29 +282,4 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
     }
 
-
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    */
 }

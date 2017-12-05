@@ -1,128 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-                android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBackground"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:orientation="vertical">
 
-  <!-- THIS IS A COMMENTED COPY OF THE BELOW ...CAN'T COMMENT BESIDE LINE FOR SOME REASON
-       android:layout_width="wrap_content"                 SPECIFIC THE BASIC WIDTH OF THE VIEW
-        android:layout_height="wrap_content"               SPECIFIES THE BASIC HEIGHT OF THE VIEW
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="DEPT"                                 'DEPT' TEXT IN THE TEXT FIELD
-        android:id="@+id/textView"                          THIS IS AN ID ASSIGNED TO 'DEPT' LABEL
-        android:layout_alignParentTop="true"               IF TRUE, MAKES THE TOP EDGE OF THIS VIEW MATCH THE TOP EDGE OF THE PARENT VIEW (background?).
-        android:layout_alignParentLeft="true"              IF TRUE, MAKES THE TOP EDGE OF THIS VIEW MATCH THE LEFT EDGE OF THE PARENT VIEW (background?).
-        android:layout_alignParentStart="true" />          MAKES THE START EDGE OF THIS VIEW MATCH THE START EDGE OF THE GIVEN ANCHOR.
-     -->
-  
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="DEPT"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="CLASS"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/editText_dept"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="SECTION"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/editText_class"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
+    <RelativeLayout
+        android:id="@+id/rViewTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText_dept"
-        android:layout_alignTop="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_class"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_section"
-        android:layout_below="@+id/editText_class"
-        android:layout_toRightOf="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Data"
-        android:id="@+id/button_add"
-        android:layout_below="@+id/editText_section"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="76dp" />
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Classes"
-        android:id="@+id/button_viewAll"
-        android:layout_above="@+id/button_update"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/btnPurge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Purge Catalogue"
+            tools:layout_editor_absoluteX="59dp"
+            tools:layout_editor_absoluteY="447dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update doesn't work"
-        android:id="@+id/button_update"
-        android:layout_below="@+id/button_add"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        <!-- SCHEDULE Button ..goes to schedule screen  -->
+        <Button
+            android:id="@+id/btnImportDb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="right"
+            android:text="Import Catalogue"
+            tools:layout_editor_absoluteX="247dp"
+            tools:layout_editor_absoluteY="447dp"/>
+    </RelativeLayout>
 
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:id="@+id/button_delete"
-        android:layout_below="@+id/button_viewAll"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="68dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="TIME"
-        android:id="@+id/textView_time"
-        android:layout_below="@+id/editText_section"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <EditText
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/editText_time"
-        android:layout_alignTop="@+id/textView_time"
-        android:layout_toRightOf="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3" />
+        app:srcCompat="@drawable/uofl"
+        android:layout_below="@id/tvSemester"/>
 
+    <TextView
+        android:id="@+id/tvSemester"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FALL 2017 CATALOGUE"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/btnCheckCatalogueExist"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="35dp"
+        >
+    </TextView>
+
+    <RelativeLayout
+        android:id="@+id/rView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/imageView"
+        >
+
+        <TextView
+            android:id="@+id/tvSubject"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:text="SUBJECT"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFFFFF">
+        </TextView>
+
+        <Spinner
+            android:id="@+id/spnSubject"
+            android:layout_width="159dp"
+            android:layout_height="31dp"
+            android:layout_alignParentRight="true"
+            android:background="@color/white">
+        </Spinner>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rView2"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rView1"
+        >
+
+
+        <Spinner
+            android:id="@+id/spnCondition"
+            android:layout_width="159dp"
+            android:layout_height="31dp"
+            android:layout_weight="0.42"
+            android:background="@color/white"/>
+
+
+        <EditText
+            android:id="@+id/editClass"
+            android:layout_width="156dp"
+            android:layout_height="30dp"
+            android:background="@color/white"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text=" Class #"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnCheckCatalogueExist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rViewTop"
+        android:layout_marginTop="5dp"
+        android:text="Check if Catalogue exists"/>
+
+
+
+    <!-- VIEW DB button   -->
+    <Button
+        android:id="@+id/btnViewAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btnCheckCatalogueExist"
+        android:layout_alignBottom="@+id/btnCheckCatalogueExist"
+        android:layout_alignParentEnd="true"
+        android:text="View Databse"/>
+
+    <!-- DELETE button  -->
+
+    <RelativeLayout
+        android:id="@+id/rViewBtm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Serach Catalogue"
+            tools:layout_editor_absoluteX="59dp"
+            tools:layout_editor_absoluteY="447dp"/>
+
+        <!-- SCHEDULE Button ..goes to schedule screen  -->
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/schedule_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="right"
+        android:text="My Schedule"
+        tools:layout_editor_absoluteX="247dp"
+        tools:layout_editor_absoluteY="447dp"/>
 </RelativeLayout>
