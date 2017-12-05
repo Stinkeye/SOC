@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         mScheduleButton.setOnClickListener(new View.OnClickListener() { //set onClickListenere to 'listen' for button clicks
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "About to Start Schedule Activity");   //logs info to the console
+                Log.wtf(TAG, "About to Start Schedule Activity");   //logs info to the console
                 Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);  //define the 'intent' you want to accomplish 'Intent' aka new screen
                 startActivity(intent);    //start the intent (new screen for this purpose)
             }
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) { //declare action to be taken when button clicked
 
                         /* set a Cursor object equal to the result of db query getAllData() in DatabaseHelper class */
-                        Cursor res = myDb.getAllData();  //a Cursor object can point to a SINGLE row of the result fetched by a db query
+                        Cursor res = myDb.getAllData("SOCtable");  //a Cursor object can point to a SINGLE row of the result fetched by a db query
                         if(res.getCount() == 0) {        //if no rows are sent back display a message
                             // show message
                             showMessage("Error","Nothing found");

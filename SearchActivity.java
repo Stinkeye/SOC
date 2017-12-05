@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class SearchActivity extends AppCompatActivity {
     private static final String TAG = "SearchActivity"; /* used in log console to id msg */
     Spinner spinner1; //drop down menu
     Spinner spinner2; //drop down menu
+    EditText class_num;
     ArrayAdapter<CharSequence> adapter; //adapter pushes strings from string.xml to drop down menu
 
     /* Declare Buttons */
@@ -48,6 +50,7 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView.Adapter rv_adapter;
     private GetInfoRecyclerAdapter getInfoRecyclerAdapter;
     private ArrayList<GetInfo> listInfo;
+    String condition, field1;
     /*****************************/
 
 
@@ -62,7 +65,7 @@ public class SearchActivity extends AppCompatActivity {
 
         /*Cast buttons and fields*/
         btnViewAll = (Button) findViewById(R.id.button_viewSOC);
-
+        class_num= (EditText)findViewById(R.id.editText);
          /* Call all Button Methods. If one is Clicked an 'onClickListener' (listens for buttons clicks) will activate.  */
         viewAll();
 
@@ -100,12 +103,15 @@ public class SearchActivity extends AppCompatActivity {
                 switch (position){
                     case 0:
                         Toast.makeText(getBaseContext(),"CECS is selected", Toast.LENGTH_LONG).show();
+                        field1 = "CECS";
                         break;
                     case 1:
                         Toast.makeText(getBaseContext(),"MATH is selected", Toast.LENGTH_LONG).show();
+                        field1 = "MATH";
                         break;
                     case 2:
                         Toast.makeText(getBaseContext(),"ECE is selected", Toast.LENGTH_LONG).show();
+                        field1 = "ECE";
                         break;
                 }
             }
@@ -127,12 +133,16 @@ public class SearchActivity extends AppCompatActivity {
                 switch (position){
                     case 0:
                         Toast.makeText(getBaseContext(),"class is equal to selected", Toast.LENGTH_LONG).show();
+                        Log.d("EQUAL 2", "msg 2");
+                        condition = "equalTo";
                         break;
                     case 1:
                         Toast.makeText(getBaseContext(),"class greater than selected", Toast.LENGTH_LONG).show();
+                        condition = "greaterThan";
                         break;
                     case 2:
                         Toast.makeText(getBaseContext(),"class less than selected", Toast.LENGTH_LONG).show();
+                        condition = "lessThan";
                         break;
                 }
             }
@@ -189,6 +199,41 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
+    public void filterSearch(){
+        int field2num, clasnum;
+        ArrayList<GetInfo> newList = new ArrayList<>();
+
+        for (GetInfo getInfo : listInfo){
+            String subject = getInfo.getSubject();
+            String clas  = getInfo.getClas().trim();
+
+             field2num = Integer.parseInt(clas);
+             clasnum   = Integer.parseInt(class_num.getText().toString());
+
+
+            switch (condition){
+                case "lessThan":
+                    if(subject.contains(field1) && (clasnum < field2num) ){
+                        newList.add(getInfo);
+                    }
+                    break;
+                case "greaterThan":
+                    if(subject.contains(field1) && (clasnum > field2num) ){
+                        newList.add(getInfo);
+                    }
+                    break;
+                case "equalTo":
+                    if(subject.contains(field1) && (clasnum == field2num) ){
+                        newList.add(getInfo);
+                    }
+                    break;
+            }//end switch
+        }//end for loop
+
+        getInfoRecyclerAdapter.setFilter(newList);
+
+    }//end function
+
     /**
      * This method is to fetch all user records from SQLite to put in recycler view
      */
@@ -232,7 +277,7 @@ public class SearchActivity extends AppCompatActivity {
                     public void onClick(View v) { //declare action to be taken when button clicked
 
                         /* set a Cursor object equal to the result of db query getAllData() in DatabaseHelper class */
-                        Cursor res = socDb.getAllData();  //a Cursor object can point to a SINGLE row of the result fetched by a db query
+                        Cursor res = socDb.getAllData("SOCtable");  //a Cursor object can point to a SINGLE row of the result fetched by a db query
                         if(res.getCount() == 0) {        //if no rows are sent back display a message
                             // show message
                             showMessage("Error","Nothing found");
@@ -250,6 +295,7 @@ public class SearchActivity extends AppCompatActivity {
 
                         // call method to show all db data in a message box
                         showMessage("Data",buffer.toString());
+                        //filterSearch();
                     }
                 }
         );

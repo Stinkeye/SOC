@@ -3,11 +3,14 @@ package com.soc.matthewhaynes.sqliteapp;
 import android.content.Context;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,12 +19,13 @@ import java.util.ArrayList;
  */
 
 public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecyclerAdapter.GetInfoViewHolder>  {
-
+    private static final String TAG = "GetInfoRecyclerAdapter";
     private ArrayList<GetInfo> listGetInfo;
     public ImageView overflow;
     private Context mContext;
     private ArrayList<GetInfo> mFilteredList;
-
+    public Button btnAddClass;
+    DatabaseHelper mDatabaseHelper;
 
     public GetInfoRecyclerAdapter(ArrayList<GetInfo> listGetInfo, Context mContext) {
         this.listGetInfo = listGetInfo;
@@ -38,6 +42,13 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
         public TextView tvClas;
         public TextView tvSection;
         public  ImageView overflow;
+        public int position;
+
+        public String ID;
+        public String subject;
+        public String clas;
+        public String sect;
+
 
         public GetInfoViewHolder(View view) {
             super(view);
@@ -45,7 +56,34 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
             tvSubject = (TextView) view.findViewById(R.id.textViewSubject);
             tvClas = (TextView) view.findViewById(R.id.textViewClas);
             tvSection = (TextView) view.findViewById(R.id.textViewSection);
+            btnAddClass = (Button) view.findViewById(R.id.btnAddClass);
+
+            ID = tvId.toString();
+            subject = tvSubject.toString();
+            clas = tvClas.toString();
+            sect = tvSection.toString();
+            position = getAdapterPosition();
+
+
+            btnAddClass.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    position = getAdapterPosition();
+                    Log.v(TAG, "MAAAAAAAAAAADE It");
+                    Toast.makeText(mContext,
+                                   listGetInfo.get(position).getId() + "\n" +
+                                   listGetInfo.get(position).getSubject() +
+                                   listGetInfo.get(position).getClas(),
+                                   Toast.LENGTH_LONG).show();
+                }
+            });
+            /*mDatabaseHelper.insertSched(listGetInfo.get(position).getId(),
+                                        listGetInfo.get(position).getSubject(),
+                                        listGetInfo.get(position).getClas(),
+                                        listGetInfo.get(position).getSection()); */
         }
+
+
     }
 
 
@@ -71,9 +109,14 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
 
     @Override
     public int getItemCount() {
-        return mFilteredList.size();
+        return listGetInfo.size();
     }
 
+    public void setFilter(ArrayList<GetInfo> newList){
+        listGetInfo = new ArrayList<>();
+        listGetInfo.addAll(newList);
+        notifyDataSetChanged();
+    }
 
 
 }

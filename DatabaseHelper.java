@@ -19,10 +19,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "SOC.db"; //declare name of database
     public static final String TABLE_NAME = "SOCtable";  //declare name of table in database
+    public static final String TABLE_SCHEDULE = "schedTable";
     public static final String COL_1 = "DEPT";           //declare column name
     public static final String COL_2 = "CLASS";          //declare column name
     public static final String COL_3 = "SECTION";        //declare column name
     public static final String COL_4 = "TIME";           //declare column name
+
+    public static final String schedCOL_1 = "ID";           //declare column name
+    public static final String schedCOL_2 = "SUBJECT";          //declare column name
+    public static final String schedCOL_3 = "CLASS";        //declare column name
+    public static final String schedCOL_4 = "TIME";           //declare column name
+
 
 
     /* CONSTRUCTOR */
@@ -34,6 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {//creates table on creation of object, takes the db as a parameter
         db.execSQL("create table " + TABLE_NAME +" (DEPT TEXT,CLASS TEXT,SECTION TEXT,TIME TEXT)"); //create DB ROW names and data type
+        db.execSQL("create table " + TABLE_SCHEDULE +" (ID TEXT, SUBJECT TEXT, CLASS TEXT, SECTION TEXT)");
     }
 
     /* not sure, methinks it upgrades to new versions of database */
@@ -58,10 +66,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
+    /* Insert data into the DB */
+    public boolean insertSched(String dept, String classs, String section, String time) {
+        SQLiteDatabase db = this.getWritableDatabase();    //declare db we want to alter
+        ContentValues contentValues = new ContentValues(); //ContentValues creates and EMPTY SET of values ..below fills empty set
+        contentValues.put(schedCOL_1, dept);           //insert data into db column 1
+        contentValues.put(schedCOL_2, classs);         //insert data into db column 2
+        contentValues.put(schedCOL_3, section);        //insert data into db column 3
+        contentValues.put(schedCOL_4, time);           //insert data into db column 4
+        long result = db.insert(TABLE_SCHEDULE, null, contentValues);
+        if (result == -1)
+            return false;
+        else
+            return true;
+    }
+
+
     /* A query to get all the data */
-    public Cursor getAllData() {   //a Cursor object points to a SINGLE row of the result fetched by a db query ..so we return Cursor object 'res'
+    public Cursor getAllData(String tablename) {   //a Cursor object points to a SINGLE row of the result fetched by a db query ..so we return Cursor object 'res'
         SQLiteDatabase db = this.getWritableDatabase();             //declare db we want to alter
-        Cursor res = db.rawQuery("select * from "+TABLE_NAME,null); //this is the actual db query
+        Cursor res = db.rawQuery("select * from "+ tablename,null); //this is the actual db query
         return res;
     }
 
