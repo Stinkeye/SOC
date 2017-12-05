@@ -8,6 +8,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by matthew.haynes on 10/14/2017.
  */
@@ -25,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /* CONSTRUCTOR */
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1); //database created when constructor is called
-        //context.deleteDatabase(DATABASE_NAME); deletes the database
+        //context.deleteDatabase(DATABASE_NAME); //deletes the database
     }
 
     @Override
@@ -78,5 +81,41 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Integer deleteData (String dept) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(TABLE_NAME, "DEPT = ?",new String[] {dept}); //deletes according to string in DEPT filed (1st txt field)
+    }
+
+
+
+    /* get set info to set to cardview */
+    public List<GetInfo> getSetInfo(){
+
+        //array of columns to fedtch
+        String[] columns={COL_1, COL_2, COL_3, COL_4};
+
+        //sorting orders
+        //String sortOrder= COL_2 + "ASC";
+        List<GetInfo> infoList= new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
+
+        if(cursor.moveToFirst()){
+            do{
+                GetInfo getInfo = new GetInfo("stuff","stuff","stuff","stuff");
+
+                getInfo.setId(cursor.getString(cursor.getColumnIndex(COL_1)));
+                getInfo.setSubject(cursor.getString(cursor.getColumnIndex(COL_2)));
+                getInfo.setClas(cursor.getString(cursor.getColumnIndex(COL_3)));
+                getInfo.setSection(cursor.getString(cursor.getColumnIndex(COL_4)));
+
+                //add record to list
+                infoList.add(getInfo); 
+            } while(cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return infoList;
     }
 }

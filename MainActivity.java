@@ -19,15 +19,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class MainActivity extends AppCompatActivity {
 
     /* Declare new database object */
     DatabaseHelper myDb;
 
+
+
     /* used in log console to id msg */
     private static final String TAG = "MAINActivity";
 
-    /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
+    /* declare buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
     EditText editDEPT, editCLASS, editSECTION, editTIME;
     Button btnAddData;
     Button btnViewAll;
@@ -36,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     Button mSearchButton;
     Button mScheduleButton;
 
+    InputStream inputStream;
+    String[] data;
     /* onCreate(Bundle) is where you initialize your activity.
     When Activity is started and application is not loaded,
     then both onCreate() methods will be called. But for subsequent starts of Activity ,
@@ -45,7 +54,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         myDb = new DatabaseHelper(this); //will call constructor of Helper class
+
+        /*
+        inputStream = getResources().openRawResource(R.raw.cecs);
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try{
+            String csvLine;
+            while ((csvLine= reader.readLine()) != null){
+                data= csvLine.split(",");
+                try{
+                    Log.e("Data ", ""+data[0]+" "+data[1]+" "+data[2]+" "+data[3]+" "+data[4]+" "+data[5]+" "+data[6]+" "+data[7]+" "+data[8]+" "+data[9]+" "+data[10]+" "+data[11] +" "+data[12]+" "+data[13]);
+                }catch(Exception e){
+                    Log.e("Problem",e.toString());
+                }
+            }
+        } catch (IOException ex){
+            throw new RuntimeException("Error in reading csv file: " +ex);
+        }
+        */
 
          /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
         editDEPT= (EditText)findViewById(R.id.editText_dept);   //attaches textfield '@+id' from activity.xml (in app/res/layout) to variable in this class
@@ -56,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         btnViewAll = (Button) findViewById(R.id.button_viewAll);
         btnViewUpdate= (Button) findViewById(R.id.button_update);
         btnDelete = (Button) findViewById(R.id.button_delete);
+
+
+
 
         /* Call all Button Methods. If one is Clicked an 'onClickListener' (listens for buttons clicks) will activate.  */
         AddData();
@@ -139,9 +172,9 @@ public class MainActivity extends AppCompatActivity {
 
                         /* Call isInserted() in DatabaseHelper class */
                         boolean isInserted = myDb.insertData(editDEPT.getText().toString(),
-                                editCLASS.getText().toString(),
-                                editSECTION.getText().toString(),
-                                editTIME.getText().toString() );//call method with parameters
+                                                             editCLASS.getText().toString(),
+                                                             editSECTION.getText().toString(),
+                                                             editTIME.getText().toString() );//call method with parameters
 
                         /* Check if isInserted() returns true or false regarding data insertion */
                         if(isInserted == true)
