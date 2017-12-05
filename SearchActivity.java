@@ -87,7 +87,7 @@ public class SearchActivity extends AppCompatActivity {
 
                     /* Call isInserted() in DatabaseHelper class */
                     /* !!!!!!!!! NEED TO CHECK IF DB IS POPULATED, then run this line */
-                    socDb.insertData(data[0], data[1], data[2], data[3]);//call method with parameters
+                    //socDb.insertData(data[0], data[1], data[2], data[3]);//call method with parameters
 
                 }catch(Exception e){
                     Log.e("Problem",e.toString());
