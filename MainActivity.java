@@ -19,15 +19,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class MainActivity extends AppCompatActivity {
 
     /* Declare new database object */
     DatabaseHelper myDb;
 
+
+
     /* used in log console to id msg */
     private static final String TAG = "MAINActivity";
 
-    /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
+    /* declare buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
     EditText editDEPT, editCLASS, editSECTION, editTIME;
     Button btnAddData;
     Button btnViewAll;
@@ -36,13 +43,39 @@ public class MainActivity extends AppCompatActivity {
     Button mSearchButton;
     Button mScheduleButton;
 
-    /* onCreate(Bundle) is where you initialize your activity. */
+    InputStream inputStream;
+    String[] data;
+    /* onCreate(Bundle) is where you initialize your activity.
+    When Activity is started and application is not loaded,
+    then both onCreate() methods will be called. But for subsequent starts of Activity ,
+    the onCreate() of application will not be called */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); //auto-generated
-        setContentView(R.layout.activity_main); //auto-generated
-        
-        myDb = new DatabaseHelper(this); //will call constructor of Helper class. Makes a db object.
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+        myDb = new DatabaseHelper(this); //will call constructor of Helper class
+
+        /*
+        inputStream = getResources().openRawResource(R.raw.cecs);
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        try{
+            String csvLine;
+            while ((csvLine= reader.readLine()) != null){
+                data= csvLine.split(",");
+                try{
+                    Log.e("Data ", ""+data[0]+" "+data[1]+" "+data[2]+" "+data[3]+" "+data[4]+" "+data[5]+" "+data[6]+" "+data[7]+" "+data[8]+" "+data[9]+" "+data[10]+" "+data[11] +" "+data[12]+" "+data[13]);
+                }catch(Exception e){
+                    Log.e("Problem",e.toString());
+                }
+            }
+        } catch (IOException ex){
+            throw new RuntimeException("Error in reading csv file: " +ex);
+        }
+        */
 
          /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
         editDEPT= (EditText)findViewById(R.id.editText_dept);   //attaches textfield '@+id' from activity.xml (in app/res/layout) to variable in this class
@@ -53,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
         btnViewAll = (Button) findViewById(R.id.button_viewAll);
         btnViewUpdate= (Button) findViewById(R.id.button_update);
         btnDelete = (Button) findViewById(R.id.button_delete);
+
+
+
 
         /* Call all Button Methods. If one is Clicked an 'onClickListener' (listens for buttons clicks) will activate.  */
         AddData();
@@ -90,9 +126,9 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {        //invoke action when button is clicked ..notice pattern (this always here)
                     @Override                      //..notice pattern (this always here)
 
-                    /* Call deleteData() in DatabaseHelper class */
+                    /* Call isInserted() in DatabaseHelper class */
                     public void onClick(View v) {
-                        Integer deletedRows = myDb.deleteData(editDEPT.getText().toString()); //returns 0 or 1 if rows deleted
+                        Integer deletedRows = myDb.deleteData(editDEPT.getText().toString());
 
                         /* Check if deleteRows() returns true or false regarding data deletion*/
                         if(deletedRows > 0)
@@ -136,9 +172,9 @@ public class MainActivity extends AppCompatActivity {
 
                         /* Call isInserted() in DatabaseHelper class */
                         boolean isInserted = myDb.insertData(editDEPT.getText().toString(),
-                                editCLASS.getText().toString(),
-                                editSECTION.getText().toString(),
-                                editTIME.getText().toString() );//call method with parameters
+                                                             editCLASS.getText().toString(),
+                                                             editSECTION.getText().toString(),
+                                                             editTIME.getText().toString() );//call method with parameters
 
                         /* Check if isInserted() returns true or false regarding data insertion */
                         if(isInserted == true)
@@ -168,10 +204,10 @@ public class MainActivity extends AppCompatActivity {
                         /* ..not sure.  Some sort of buffer that reads in database rows */
                         StringBuffer buffer = new StringBuffer();                 //declare a buffer
                         while (res.moveToNext()) {                                //move Cursor object 'res' to the next row
-                            buffer.append("ID :"+ res.getString(0)+"\n");         //index 0 is first db column
-                            buffer.append("Name :"+ res.getString(1)+"\n");       //index 1 is second db column
-                            buffer.append("Description :"+ res.getString(2)+"\n");//index 2 is third db column
-                            buffer.append("Tag :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
+                            buffer.append("DEPT :"+ res.getString(0)+"\n");         //index 0 is first db column
+                            buffer.append("CLASS :"+ res.getString(1)+"\n");       //index 1 is second db column
+                            buffer.append("SECTION :"+ res.getString(2)+"\n");//index 2 is third db column
+                            buffer.append("TIME :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
                         }
 
                         // call method to show all db data in a message box
