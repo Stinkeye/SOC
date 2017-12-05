@@ -87,7 +87,7 @@ public class SearchActivity extends AppCompatActivity {
 
                     /* Call isInserted() in DatabaseHelper class */
                     /* !!!!!!!!! NEED TO CHECK IF DB IS POPULATED, then run this line */
-                    //socDb.insertData(data[0], data[1], data[2], data[3]);//call method with parameters
+                    socDb.insertData(data[0], data[1], data[2], data[3]);//call method with parameters
 
                 }catch(Exception e){
                     Log.e("Problem",e.toString());
@@ -204,7 +204,7 @@ public class SearchActivity extends AppCompatActivity {
         socDb = new DatabaseHelper(activity);
 
         getDataFromSQLite();
-        //socDb.close();
+        socDb.close();
     }
 
 
@@ -286,21 +286,21 @@ public class SearchActivity extends AppCompatActivity {
                     public void onClick(View v) { //declare action to be taken when button clicked
 
                         /* set a Cursor object equal to the result of db query getAllData() in DatabaseHelper class */
-                        Cursor res = socDb.getAllData("SOCtable");  //a Cursor object can point to a SINGLE row of the result fetched by a db query
-                        if(res.getCount() == 0) {        //if no rows are sent back display a message
+                       // Cursor res = socDb.getAllData("SOCtable");  //a Cursor object can point to a SINGLE row of the result fetched by a db query
+                       // if(res.getCount() == 0) {        //if no rows are sent back display a message
                             // show message
-                            showMessage("Error","Nothing found");
-                            return;
-                        }
+                        //    showMessage("Error","Nothing found");
+                        //    return;
+                       // }
 
                         /* ..not sure.  Some sort of buffer that reads in database rows */
-                        StringBuffer buffer = new StringBuffer();                 //declare a buffer
-                        while (res.moveToNext()) {                                //move Cursor object 'res' to the next row
-                            buffer.append("ID :"+ res.getString(0)+"\n");         //index 0 is first db column
-                            buffer.append("SUBJECT :"+ res.getString(1)+"\n");       //index 1 is second db column
-                            buffer.append("CLASS :"+ res.getString(2)+"\n");//index 2 is third db column
-                            buffer.append("SECTION :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
-                        }
+                       // StringBuffer buffer = new StringBuffer();                 //declare a buffer
+                       // while (res.moveToNext()) {                                //move Cursor object 'res' to the next row
+                       //     buffer.append("ID :"+ res.getString(0)+"\n");         //index 0 is first db column
+                       //     buffer.append("SUBJECT :"+ res.getString(1)+"\n");       //index 1 is second db column
+                       //     buffer.append("CLASS :"+ res.getString(2)+"\n");//index 2 is third db column
+                       //     buffer.append("SECTION :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
+                       // }
 
                         // call method to show all db data in a message box
                         //showMessage("Data",buffer.toString());

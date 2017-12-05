@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     EditText editDEPT, editCLASS, editSECTION, editTIME;
     Button btnAddData;
     Button btnViewAll;
-    Button btnViewUpdate; //update is currently broken
     Button btnDelete;
     Button mSearchButton;
     Button mScheduleButton;
@@ -92,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
          /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
         btnAddData = (Button) findViewById(R.id.button_add); //attaches Button '@+id' from activity.xml (in app/res/layout) to variable in this class
         btnViewAll = (Button) findViewById(R.id.button_viewAll);
-        btnViewUpdate= (Button) findViewById(R.id.button_update);
         btnDelete = (Button) findViewById(R.id.button_delete);
         editCLASS = (EditText)(findViewById(R.id.editClass));
 
@@ -101,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         /* Call all Button Methods. If one is Clicked an 'onClickListener' (listens for buttons clicks) will activate.  */
         AddData();
         viewAll();
-        //UpdateData(); //this is broken, it needs a primary key to function correctly
+
         DeleteData();
 
         /* User Enter Class Number */
@@ -223,28 +221,7 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    /* all update data functions are broken ..disregard for now */
-    public void UpdateData() {
-        btnViewUpdate.setOnClickListener(     //add a 'onClickListener' to button ..notice pattern (this always here)
-                new View.OnClickListener() {  //invoke action when button is clicked ..notice pattern (this always here)
-                    @Override                 //..notice pattern (this always here)
-                    public void onClick(View v) { //declare action to be taken when button clicked
 
-                        /* Call isUpdated() in DatabaseHelper class to update db */
-                        boolean isUpdate = myDb.updateData(editDEPT.getText().toString(),
-                                editCLASS.getText().toString(),
-                                editSECTION.getText().toString(),
-                                editTIME.getText().toString()); //call method with parameters
-
-                        /* Check if isUpdated() returns true or false regarding data insertion */
-                        if (isUpdate == true)
-                            Toast.makeText(MainActivity.this, "Data Update", Toast.LENGTH_LONG).show();   //Toast = temporary message bubble popup
-                        else
-                            Toast.makeText(MainActivity.this, "Data not Updated", Toast.LENGTH_LONG).show();  //Toast = temporary message bubble popup
-                    }
-                }
-        );
-    }
 
     /* Handles Add Data button when pressed. Calls isInserted() in DatabaseHelper. Data will be added to database*/
     public  void AddData() {

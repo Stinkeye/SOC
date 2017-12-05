@@ -19,17 +19,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "SOC.db"; //declare name of database
     public static final String TABLE_NAME = "SOCtable";  //declare name of table in database
-    public static final String TABLE_SCHEDULE = "schedTable";
+    public static final String TABLE_SCHEDULE = "schedTable"; //declare name of table in db
     public static final String COL_1 = "DEPT";           //declare column name
     public static final String COL_2 = "CLASS";          //declare column name
     public static final String COL_3 = "SECTION";        //declare column name
     public static final String COL_4 = "TIME";           //declare column name
-
-    public static final String schedCOL_1 = "ID";           //declare column name
-    public static final String schedCOL_2 = "SUBJECT";          //declare column name
-    public static final String schedCOL_3 = "CLASS";        //declare column name
-    public static final String schedCOL_4 = "TIME";           //declare column name
-
 
 
     /* CONSTRUCTOR */
@@ -40,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {//creates table on creation of object, takes the db as a parameter
-        db.execSQL("create table " + TABLE_NAME +" (DEPT TEXT,CLASS TEXT,SECTION TEXT,TIME TEXT)"); //create DB ROW names and data type
+        db.execSQL("create table " + TABLE_NAME +" (ID TEXT,SUBJECT TEXT,CLASS TEXT,SECTION TEXT)"); //create DB ROW names and data type
         db.execSQL("create table " + TABLE_SCHEDULE +" (ID TEXT, SUBJECT TEXT, CLASS TEXT, SECTION TEXT)");
     }
 
@@ -52,34 +46,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /* Insert data into the DB */
-    public boolean insertData(String dept, String classs, String section, String time) {
+    public boolean insertData(String tableName, String id, String subj, String clas) {
         SQLiteDatabase db = this.getWritableDatabase();    //declare db we want to alter
         ContentValues contentValues = new ContentValues(); //ContentValues creates and EMPTY SET of values ..below fills empty set
-        contentValues.put(COL_1,dept);           //insert data into db column 1
-        contentValues.put(COL_2,classs);         //insert data into db column 2
-        contentValues.put(COL_3,section);        //insert data into db column 3
-        contentValues.put(COL_4,time);           //insert data into db column 4
-        long result = db.insert(TABLE_NAME,null ,contentValues);
+        contentValues.put(COL_1,id);           //insert data into db column 1
+        contentValues.put(COL_2,subj);         //insert data into db column 2
+        contentValues.put(COL_3,clas);        //insert data into db column 3
+        //contentValues.put(COL_4,sect);           //insert data into db column 4
+        long result = db.insert(tableName, null,contentValues);
         if(result == -1)
             return false;
         else
             return true;
     }
 
-    /* Insert data into the DB */
-    public boolean insertSched(String dept, String classs, String section, String time) {
-        SQLiteDatabase db = this.getWritableDatabase();    //declare db we want to alter
-        ContentValues contentValues = new ContentValues(); //ContentValues creates and EMPTY SET of values ..below fills empty set
-        contentValues.put(schedCOL_1, dept);           //insert data into db column 1
-        contentValues.put(schedCOL_2, classs);         //insert data into db column 2
-        contentValues.put(schedCOL_3, section);        //insert data into db column 3
-        contentValues.put(schedCOL_4, time);           //insert data into db column 4
-        long result = db.insert(TABLE_SCHEDULE, null, contentValues);
-        if (result == -1)
-            return false;
-        else
-            return true;
-    }
 
 
     /* A query to get all the data */
@@ -89,17 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    /* UPDATE IS CURRENTLY BROKEN, ..needs a primary key declared (in place of TEXT) in onCreate() to work as written.   */
-    public boolean updateData(String dept,String classs,String section,String time) {
-        SQLiteDatabase db = this.getWritableDatabase();        //retrieve db to write to it
-        ContentValues contentValues = new ContentValues();     //declare ContentValue object
-        contentValues.put(COL_1,dept);                         //update data into column 1
-        contentValues.put(COL_2,classs);                       //update data into column 2
-        contentValues.put(COL_3,section);                      //update data into column 3
-        contentValues.put(COL_4,time);                         //update data into column 4
-        db.update(TABLE_NAME, contentValues, "DEPT = ?",new String[] { dept });  //update the database with primary key (not declared ..is why broke)
-        return true;
-    }
+
 
     /* returns 1 for successful delete from db, 0 for fail */
     public Integer deleteData (String dept) {
