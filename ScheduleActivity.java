@@ -29,7 +29,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
 
     DatabaseHelper myDb;
-    String TAG="Sched Activity: ";
+    String TAG="Sched Activity: "; //tag for debugging to console
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,7 @@ public class ScheduleActivity extends AppCompatActivity {
         myDb = new DatabaseHelper(this);
 
 
-        etID=(EditText)findViewById(R.id.etID); //set text from textfield
-
-
+        etID=(EditText)findViewById(R.id.etID); //set variable = id from editText field
 
         btnDelete= (Button) findViewById(R.id.btnSchedDelete);
         btnDelete.setOnClickListener(new View.OnClickListener() { //invoke action when button is clicked
@@ -60,7 +58,6 @@ public class ScheduleActivity extends AppCompatActivity {
 
 
 
-
         btnViewAll = (Button) findViewById(R.id.btnViewSched);
         btnViewAll.setOnClickListener(new View.OnClickListener() { //set onClickListener to 'listen' for button clicks
             @Override
@@ -68,7 +65,6 @@ public class ScheduleActivity extends AppCompatActivity {
                 Log.i(TAG, "btnViewAll");   //logs info to the console
 
                 /* set a Cursor object equal to the result of db query getAllData() in DatabaseHelper class */
-
 
                 Cursor res = myDb.getAllData("tblClass");  //a Cursor object can point to a SINGLE row of the result fetched by a db query
 
@@ -78,13 +74,17 @@ public class ScheduleActivity extends AppCompatActivity {
                     return;
                 }
 
-                        /* ..not sure.  Some sort of buffer that reads in database rows */
+                /* buffer that reads in database rows */
                 StringBuffer buffer = new StringBuffer();                 //declare a buffer
                 while (res.moveToNext()) {                                //move Cursor object 'res' to the next row
                     buffer.append("id :"+ res.getString(0)+"\n");         //index 0 is first db column
-                    buffer.append("subject :"+ res.getString(1)+"\n");       //index 1 is second db column
-                    buffer.append("class :"+ res.getString(2)+"\n");//index 2 is third db column
-                    buffer.append("section :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
+                    buffer.append("subject :"+ res.getString(1)+"\n");    //index 1 is second db column
+                    buffer.append("class :"+ res.getString(2)+"\n");      //index 2 is third db column
+                    buffer.append("title :"+ res.getString(4)+"\n");
+                    buffer.append("day :"+ res.getString(6)+"\n");
+                    buffer.append("time :"+ res.getString(7)+"\n");
+                    buffer.append("room :"+ res.getString(8)+"\n\n");
+
                 }
 
                 // call method to show all db data in a message box

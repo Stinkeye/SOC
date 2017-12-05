@@ -41,10 +41,8 @@ public class MainActivity extends AppCompatActivity {
     Button btnCheckSOC;
     Button btnSearchButton;
     Button btnScheduleButton;
+    Button btnPurge;
     EditText editCLASS; /** Text Input **/
-
-
-
 
     /* Drop down menus */
     Spinner spinner1; //drop down menu
@@ -61,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         editCLASS = (EditText)(findViewById(R.id.editClass));
-
-
 
 
         /*  CHANGE TO SEARCH SCREEN IF BUTTON IS PRESSED */
@@ -94,8 +90,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        /* button: Purge button */
+        btnPurge = (Button)findViewById(R.id.btnPurge);   // set button action
+        btnPurge.setOnClickListener(new View.OnClickListener() { //set onClickListenere to 'listen' for button clicks
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "btnPurge");   //logs info to the console
+                myDb.purgeData("tblCatalogue");
+            }
+        });
 
-        /* Import DB Button */
+        /* button: Import DB Button */
         inputStream = getResources().openRawResource(R.raw.cecs);
         btnImportDb = (Button) findViewById(R.id.btnImportDb);
         btnImportDb.setOnClickListener(new View.OnClickListener() { //set onClickListener to 'listen' for button clicks
@@ -104,21 +109,22 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "Import DB");   //logs info to the console
 
                 Cursor cursor;
-                cursor = myDb.checkDbExists("tblCatalogue");
+                cursor = myDb.getAllData("tblCatalogue");
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                 try{
                     String csvLine;
-                    if( cursor.getCount() < 0){
-                        cursor.close();
+                    if( cursor.getCount() <= 0){
+                        Toast.makeText(MainActivity.this,"Importing Catalouge",Toast.LENGTH_LONG).show();
+                        //cursor.close();
                         while ((csvLine= reader.readLine()) != null){
                             data= csvLine.split(",");
                             try{
                                 Log.e("Data ", ""+data[0]+" "+data[1]+" "+data[2]+" "+data[3]+" "+data[4]+" "+data[5]+" "+data[6]+" "+data[7]+" "+data[8]+" "+data[9]+" "+data[10]+" "+data[11] +" "+data[12]+" "+data[13]);
 
                         /* Call isInserted() in DatabaseHelper class */
-                        /* !!!!!!!!! NEED TO CHECK IF DB IS POPULATED, then run this line */
-                        myDb.insertData("tblCatalogue", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13]);//call method with parameters
+                        /* !!!!!!!!oooo! NEED TO CHECK IF DB IS POPULATED, then run this line */
+                        myDb.insertData("tblCatalogue", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7], data[8], data[9], data[10], data[11], data[12], data[13]);//insert data from csv to db
 
                             }catch(Exception e){
                                 Log.e("Problem",e.toString());
@@ -137,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
+        /* button: View Imported Database */
         btnViewAll = (Button) findViewById(R.id.btnViewAll);
         btnViewAll.setOnClickListener(new View.OnClickListener() { //set onClickListener to 'listen' for button clicks
             @Override
@@ -162,7 +168,8 @@ public class MainActivity extends AppCompatActivity {
                     buffer.append("id :"+ res.getString(0)+"\n");         //index 0 is first db column
                     buffer.append("subject :"+ res.getString(1)+"\n");       //index 1 is second db column
                     buffer.append("class :"+ res.getString(2)+"\n");//index 2 is third db column
-                    buffer.append("section :"+ res.getString(3)+"\n\n");      //index 3 is fourth db column
+                    buffer.append("section :"+ res.getString(3)+"\n");      //index 3 is fourth db column
+                    buffer.append("description :"+ res.getString(4)+"\n\n");      //index 3 is fourth db column
                 }
 
                 // call method to show all db data in a message box
@@ -171,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /** button: Check if catalogue exists **/
         btnCheckSOC = (Button) findViewById(R.id.btnCheckCatalogueExist);
         btnCheckSOC.setOnClickListener(new View.OnClickListener() { //set onClickListener to 'listen' for button clicks
             @Override
@@ -226,10 +234,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -262,9 +268,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
 
 
     }//end OnCreate

@@ -84,8 +84,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(Create_tblCat); //create DB ROW names and data type
         db.execSQL(Create_tblClass);
-        data = new String[14];
-
     }
 
     @Override
@@ -112,7 +110,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /* returns 1 for successful delete from db, 0 for fail */
     public Integer deleteData (String colInfo, String tableName) {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.delete(tableName, "id = ?",new String[] {colInfo}); //deletes according to string in DEPT filed (1st txt field)
+        return db.delete(tableName, "id = ?",new String[] {colInfo}); //deletes according to string in colINfo filed (1st txt field)
+    }
+
+
+    /* returns 1 for successful delete from db, 0 for fail */
+    public void purgeData ( String tableName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + tableName);
     }
 
     /* Insert data into the DB */
@@ -190,7 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public List<GetInfo> getSetInfo(){
 
         //array of columns to fedtch
-        String[] columns={col_1, col_2, col_3, col_4};
+        String[] columns={col_1, col_2, col_3, col_4, col_5, col_6, col_7, col_8, col_9, col_10, col_11, col_12, col_13, col_14};
 
         //sorting orders
         //String sortOrder= COL_2 + "ASC";
@@ -208,6 +213,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 getInfo.setC2(cursor.getString(cursor.getColumnIndex(col_2)));
                 getInfo.setC3(cursor.getString(cursor.getColumnIndex(col_3)));
                 getInfo.setC4(cursor.getString(cursor.getColumnIndex(col_4)));
+                getInfo.setC5(cursor.getString(cursor.getColumnIndex(col_5)));
+                getInfo.setC6(cursor.getString(cursor.getColumnIndex(col_7)));
+                getInfo.setC7(cursor.getString(cursor.getColumnIndex(col_8)));
+                getInfo.setC8(cursor.getString(cursor.getColumnIndex(col_9)));
 
                 //add record to list
                 infoList.add(getInfo);

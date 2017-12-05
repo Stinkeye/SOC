@@ -48,13 +48,15 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
         public TextView tvC2;
         public TextView tvC3;
         public TextView tvC4;
+        public TextView tvC5;
+        public TextView tvC6;
+        public TextView tvC7;
+        public TextView tvC8;
+
         public  ImageView overflow;
         public int position;
 
-        public String c1;
-        public String c2;
-        public String c3;
-        public String c4;
+
         public String data;
 
 
@@ -68,12 +70,11 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
             tvC2 = (TextView) view.findViewById(R.id.textViewSubject);
             tvC3 = (TextView) view.findViewById(R.id.textViewClas);
             tvC4 = (TextView) view.findViewById(R.id.textViewSection);
+            tvC5 = (TextView) view.findViewById(R.id.textViewTitle);
+            tvC6 = (TextView) view.findViewById(R.id.textViewDay);
+            tvC7 = (TextView) view.findViewById(R.id.textViewTime);
+            tvC8 = (TextView) view.findViewById(R.id.textViewRoom);
 
-            /** transform Textviews into Strings **/
-            c1 = tvC1.toString();
-            c2 = tvC2.toString();
-            c3 = tvC3.toString();
-            c4 = tvC4.toString();
 
             position = getAdapterPosition(); //get position of card in list
 
@@ -85,14 +86,8 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
                     position = getAdapterPosition();
                     myDb = new DatabaseHelper(mContext);
                     Cursor res = myDb.searchCol1("tblCatalogue", listGetInfo.get(position).getC1()); //cursor for retrieving data row by id
-                    //data = myDb.searchC1("tblCatalogue", listGetInfo.get(position).getC1()); //cursor for retrieving data row by id
                     Log.i(TAG, "btnAddClass");
                     Toast.makeText(mContext,"Class Added" , Toast.LENGTH_LONG).show();
-
-
-
-
-
 
 
                     /** Insert Data into db personal Schedule Table **/
@@ -113,8 +108,6 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
                                 res.getString(res.getColumnIndex("credits")),
                                 res.getString(res.getColumnIndex("location")));
                     }
-
-
                     myDb.close();
                 }
             });
@@ -139,6 +132,10 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
         holder.tvC2.setText(listGetInfo.get(position).getC2());
         holder.tvC3.setText(listGetInfo.get(position).getC3());
         holder.tvC4.setText(listGetInfo.get(position).getC4());
+        holder.tvC5.setText(listGetInfo.get(position).getC5());
+        holder.tvC6.setText(listGetInfo.get(position).getC6());
+        holder.tvC7.setText(listGetInfo.get(position).getC7());
+        holder.tvC8.setText(listGetInfo.get(position).getC8());
     }
 
 
@@ -152,6 +149,5 @@ public class GetInfoRecyclerAdapter extends RecyclerView.Adapter<GetInfoRecycler
         listGetInfo.addAll(newList);
         notifyDataSetChanged();
     }
-
 
 }

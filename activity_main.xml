@@ -33,7 +33,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_gravity="right"
-            android:text="Import Cataclogue"
+            android:text="Import Catalogue"
             tools:layout_editor_absoluteX="247dp"
             tools:layout_editor_absoluteY="447dp"/>
     </RelativeLayout>
@@ -54,7 +54,7 @@
         android:textColor="#FFFFFF"
         android:layout_below="@id/btnCheckCatalogueExist"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="35dp"
         >
     </TextView>
 
@@ -148,20 +148,21 @@
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Serach DB"
+            android:text="Serach Catalogue"
             tools:layout_editor_absoluteX="59dp"
             tools:layout_editor_absoluteY="447dp"/>
 
         <!-- SCHEDULE Button ..goes to schedule screen  -->
-        <Button
-            android:id="@+id/schedule_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:layout_gravity="right"
-            android:text="Schedule"
-            tools:layout_editor_absoluteX="247dp"
-            tools:layout_editor_absoluteY="447dp"/>
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/schedule_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="right"
+        android:text="My Schedule"
+        tools:layout_editor_absoluteX="247dp"
+        tools:layout_editor_absoluteY="447dp"/>
 </RelativeLayout>

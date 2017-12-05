@@ -28,18 +28,32 @@
                 android:weightSum="1">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="120dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/id"
+                    android:text="@string/c1"
                     android:textColor="#000"/>
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/textViewId"
+                android:id="@+id/textViewId"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="@string/c1"
+                android:textColor="#000"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="@string/c5"
+                android:textColor="#000"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/textViewTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/id"
+                    android:text="@string/c5"
                     android:textColor="#000"/>
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -49,19 +63,32 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="match_parent"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/subject"
+                    android:text="@string/c2"
                     android:textColor="#000"/>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/textViewSubject"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c2"
+                    android:textColor="#000"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c7"
+                    android:textColor="#000"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/textViewDay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/subject"
+                    android:text="@string/c7"
                     android:textColor="#000"/>
+
+
             </LinearLayout>
 
             <LinearLayout
@@ -71,19 +98,31 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="match_parent"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/clas"
+                    android:text="@string/c3"
                     android:textColor="#000"/>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/textViewClas"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c3"
+                    android:textColor="#000"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c8"
+                    android:textColor="#000"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/textViewTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/clas"
+                    android:text="@string/c8"
                     android:textColor="#000"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -93,17 +132,32 @@
                 android:orientation="horizontal">
 
                 <android.support.v7.widget.AppCompatTextView
-                    android:layout_width="121dp"
+                    android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/section"
+                    android:text="@string/c4"
                     android:textColor="#000"/>
 
                 <android.support.v7.widget.AppCompatTextView
                     android:id="@+id/textViewSection"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c4"
+                    android:textColor="#000"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/c9"
+                    android:textColor="#000"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/textViewRoom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/section"
+                    android:text="@string/c9"
                     android:textColor="#000"/>
+
+
 
             </LinearLayout>
 

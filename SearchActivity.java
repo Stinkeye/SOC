@@ -33,13 +33,12 @@ package com.soc.matthewhaynes.soc;
 public class SearchActivity extends AppCompatActivity {
 
 
-    DatabaseHelper socDb;  /* Declare new database object */
+    DatabaseHelper socDb;    /* Declare new database object */
     InputStream inputStream; //input stream to read txt file from /res/raw
     String[] data;           //array to hold db info read from csv
     private static final String TAG = "SearchActivity"; /* used in log console to id msg */
-    Spinner spinner1; //drop down menu
-    Spinner spinner2; //drop down menu
-    EditText class_num;
+    Spinner spinner1;        //drop down menu
+    Spinner spinner2;        //drop down menu
     ArrayAdapter<CharSequence> adapter; //adapter pushes strings from string.xml to drop down menu
 
     /* Declare Buttons */
@@ -78,6 +77,7 @@ public class SearchActivity extends AppCompatActivity {
          /* Call all Button Methods. If one is Clicked an 'onClickListener' (listens for buttons clicks) will activate.  */
 
 
+         /* Initialize Methods not in onCreate() */
         initViews();
         initObjects();
         viewAll();
@@ -102,15 +102,17 @@ public class SearchActivity extends AppCompatActivity {
          recyclerView.setAdapter(rv_adapter);
 
          ******************************************/
-
-
-
     }
+
+
     //initialize recycler 'scroll' view
     private void initViews(){
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
     }
-    //recycler view stuff
+
+
+
+    //recycler view stuff to scroll and refresh cards
     private void initObjects(){
         listInfo = new ArrayList<>();
         getInfoRecyclerAdapter = new GetInfoRecyclerAdapter(listInfo, this);
@@ -128,6 +130,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
+    /* Read in the search criteria from MainActivity.java and execute search */
     public void filterSearch(){
         int field2num, clasnum;
         ArrayList<GetInfo> newList = new ArrayList<>();
@@ -142,12 +145,12 @@ public class SearchActivity extends AppCompatActivity {
 
             switch (condition){
                 case "lessThan":
-                    if(subject.contains(field1) && (clasnum < field2num) ){
+                    if(subject.contains(field1) && (clasnum > field2num) ){
                         newList.add(getInfo);
                     }
                     break;
                 case "greaterThan":
-                    if(subject.contains(field1) && (clasnum > field2num) ){
+                    if(subject.contains(field1) && (clasnum < field2num) ){
                         newList.add(getInfo);
                     }
                     break;
@@ -163,11 +166,12 @@ public class SearchActivity extends AppCompatActivity {
 
     }//end function
 
+
     /**
      * This method is to fetch all user records from SQLite to put in recycler view
      */
     private void getDataFromSQLite() {
-        // AsyncTask is used that SQLite operation not blocks the UI Thread.
+        // AsyncTask is used so SQLite operations do not block the UI Thread.
         new AsyncTask<Void, Void, Void>(){
 
             @Override

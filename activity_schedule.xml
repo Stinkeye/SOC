@@ -25,10 +25,11 @@
 
     <Button
         android:id="@+id/btnViewSched"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="View Schedule"
         android:layout_below="@id/schdlTitle"
+        android:layout_centerInParent="true"
         />
 
     <android.support.v7.widget.RecyclerView
