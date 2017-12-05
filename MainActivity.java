@@ -10,13 +10,19 @@ package com.soc.matthewhaynes.sqliteapp; //this is different depending on the PA
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -42,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
     Button btnDelete;
     Button mSearchButton;
     Button mScheduleButton;
+    Spinner spinner1; //drop down menu
+    Spinner spinner2; //drop down menu
+    String condition, field1;
+    GetInfo mGetInfo;
+    ArrayAdapter<CharSequence> adapter; //adapter pushes strings from string.xml to drop down menu
 
     InputStream inputStream;
     String[] data;
@@ -54,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         myDb = new DatabaseHelper(this); //will call constructor of Helper class
@@ -78,15 +90,11 @@ public class MainActivity extends AppCompatActivity {
         */
 
          /* Casting buttons and Text fields. Attaches '@+id' (Button & Field ids) from /app/res/layout/activity.xml to vars in this class */
-        editDEPT= (EditText)findViewById(R.id.editText_dept);   //attaches textfield '@+id' from activity.xml (in app/res/layout) to variable in this class
-        editCLASS= (EditText)findViewById(R.id.editText_class); // this is basically (Cast-to-text-field) findViewbyId(integer);
-        editSECTION= (EditText)findViewById(R.id.editText_section);
-        editTIME= (EditText)findViewById(R.id.editText_time);
         btnAddData = (Button) findViewById(R.id.button_add); //attaches Button '@+id' from activity.xml (in app/res/layout) to variable in this class
         btnViewAll = (Button) findViewById(R.id.button_viewAll);
         btnViewUpdate= (Button) findViewById(R.id.button_update);
         btnDelete = (Button) findViewById(R.id.button_delete);
-
+        editCLASS = (EditText)(findViewById(R.id.editClass));
 
 
 
@@ -96,6 +104,11 @@ public class MainActivity extends AppCompatActivity {
         //UpdateData(); //this is broken, it needs a primary key to function correctly
         DeleteData();
 
+        /* User Enter Class Number */
+
+
+
+
         /*  CHANGE TO SEARCH SCREEN IF BUTTON IS PRESSED */
         mSearchButton = (Button)findViewById(R.id.search_button); // set button action
         mSearchButton.setOnClickListener(new View.OnClickListener() { //set onClickListenere to 'listen' for button clicks
@@ -103,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "About to Start Search Activity");   //logs info to the console
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class); //define the 'intent' you want to accomplish 'Intent' aka new screen
+                Bundle extras = new Bundle();
+                extras.putString("field1",field1);
+                extras.putString("condition",condition);
+                extras.putString("editClass",editCLASS.getText().toString());
+                intent.putExtras(extras);
                 startActivity(intent); //start the intent (new screen for this purpose)
             }
         });
@@ -117,6 +135,71 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);    //start the intent (new screen for this purpose)
             }
         });
+
+        /* DROP DOWN MENU CODE HERE    */
+        spinner1 = (Spinner) findViewById(R.id.spnSubject);
+        adapter = ArrayAdapter.createFromResource(this,R.array.spinner_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner1.setAdapter(adapter);
+        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getBaseContext(),parent.getItemIdAtPosition(position)+ " is selected", Toast.LENGTH_LONG).show();
+
+                switch (position){
+                    case 0:
+                        Toast.makeText(getBaseContext(),"CECS is selected", Toast.LENGTH_LONG).show();
+                        field1 = "CECS";
+                        break;
+                    case 1:
+                        Toast.makeText(getBaseContext(),"MATH is selected", Toast.LENGTH_LONG).show();
+                        field1 = "MATH";
+                        break;
+                    case 2:
+                        Toast.makeText(getBaseContext(),"ECE is selected", Toast.LENGTH_LONG).show();
+                        field1 = "ECE";
+                        break;
+                }
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinner2 = (Spinner) findViewById(R.id.spnCondition);
+        adapter = ArrayAdapter.createFromResource(this,R.array.number_options, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(adapter);
+        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:
+                        Toast.makeText(getBaseContext(),"class is equal to selected", Toast.LENGTH_LONG).show();
+                        Log.d("EQUAL 2", "msg 2");
+                        condition = "equalTo";
+                        break;
+                    case 1:
+                        Toast.makeText(getBaseContext(),"class greater than selected", Toast.LENGTH_LONG).show();
+                        condition = "greaterThan";
+                        break;
+                    case 2:
+                        Toast.makeText(getBaseContext(),"class less than selected", Toast.LENGTH_LONG).show();
+                        condition = "lessThan";
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
 
     }//end onCreate method
 

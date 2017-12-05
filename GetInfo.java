@@ -21,6 +21,25 @@ public class GetInfo {
     private String credit;
     private String location;
 
+    public String getField1() {
+        return field1;
+    }
+
+    public void setField1(String field1) {
+        this.field1 = field1;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
+
+    private String field1;
+    private String condition;
+
     public GetInfo(String id, String subject, String clas, String section) {
         this.id = id;
         this.subject = subject;

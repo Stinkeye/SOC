@@ -5,6 +5,7 @@ package com.soc.matthewhaynes.sqliteapp; //this is different depending on the PA
 
 import android.app.Activity;
 import android.app.LauncherActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
@@ -50,7 +51,7 @@ public class SearchActivity extends AppCompatActivity {
     private RecyclerView.Adapter rv_adapter;
     private GetInfoRecyclerAdapter getInfoRecyclerAdapter;
     private ArrayList<GetInfo> listInfo;
-    String condition, field1;
+    String condition, field1, editClass;
     /*****************************/
 
 
@@ -58,6 +59,13 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);       //auto-generated
         setContentView(R.layout.activity_search); //auto-generated
+
+        /* get vars passed from MainActivity */
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        field1 = extras.getString("field1");
+        condition = extras.getString("condition");
+        editClass = extras.getString("editClass");
 
 
         socDb = new DatabaseHelper(this); //will call constructor of Helper class and create new db
@@ -154,6 +162,7 @@ public class SearchActivity extends AppCompatActivity {
         });
         initViews();
         initObjects();
+        filterSearch();
 
         /******* RecyclerView code **********************
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
@@ -208,7 +217,7 @@ public class SearchActivity extends AppCompatActivity {
             String clas  = getInfo.getClas().trim();
 
              field2num = Integer.parseInt(clas);
-             clasnum   = Integer.parseInt(class_num.getText().toString());
+             clasnum   = Integer.parseInt(editClass);
 
 
             switch (condition){
@@ -294,8 +303,8 @@ public class SearchActivity extends AppCompatActivity {
                         }
 
                         // call method to show all db data in a message box
-                        showMessage("Data",buffer.toString());
-                        //filterSearch();
+                        //showMessage("Data",buffer.toString());
+                        filterSearch();
                     }
                 }
         );
